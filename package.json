@@ -1,0 +1,18 @@
+{
+  "name": "adap-names-solutions",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "vitest"
+  },
+  "keywords": [],
+  "author": "Dirk Riehle",
+  "license": "",
+  "devDependencies": {
+    "typescript": "^5.5.4"
+  },
+  "dependencies": {
+    "vitest": "^2.0.5"
+  }
+}
