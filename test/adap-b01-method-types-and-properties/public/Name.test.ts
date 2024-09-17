@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { Name } from "../../../src/adap-b01-method-types-and-properties/solution/Name";
+import { Name } from "../../../src/adap-b01-method-types-and-properties/public/Name";
 
 describe("Basic initialization tests", () => {
   it("test construction 1", () => {
