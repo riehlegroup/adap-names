@@ -20,5 +20,6 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Test
+      - name: Run public tests
         run: npm run test
+        if: github.repository != 'riehlegroup/adap-names'
