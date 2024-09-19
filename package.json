@@ -4,8 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "build": "tsc",
     "test": "vitest",
-    "build": "tsc"
+    "test:b01": "vitest --dir test/adap-b01*",
+    "test:b02": "vitest --dir test/adap-b02*",
+    "test:b03": "vitest --dir test/adap-b03*",
+    "test:b04": "vitest --dir test/adap-b04*",
+    "test:b05": "vitest --dir test/adap-b05*",
+    "test:b06": "vitest --dir test/adap-b06*"
   },
   "keywords": [],
   "author": "Dirk Riehle",
