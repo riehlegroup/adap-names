@@ -1,0 +1,22 @@
+import { Equality } from "./Equality";
+import { Cloneable } from "./Cloneable";
+
+export interface Coordinate extends Equality, Cloneable {
+
+    reset(): void;
+
+    getX(): number;
+    setX(x: number): void;
+    getY(): number;
+    setY(y: number): void;
+
+    calcStraightLineDistance(other: Coordinate): number;
+
+    getR(): number;
+    setR(r: number): void;
+    getPhi(): number;
+    setPhi(phi: number): void;
+
+    calcGreatCircleDistance(other: Coordinate): number;
+
+}
