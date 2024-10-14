@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
-import { Coordinate } from "../../src/adap-b02/coordinates/Coordinate";
-import { CartesianCoordinate } from "../../src/adap-b02/coordinates/CartesianCoordinate";
-import { PolarCoordinate } from "../../src/adap-b02/coordinates/PolarCoordinate";
+import { Coordinate } from "../../../src/adap-b02/coordinates/Coordinate";
+import { CartesianCoordinate } from "../../../src/adap-b02/coordinates/CartesianCoordinate";
+import { PolarCoordinate } from "../../../src/adap-b02/coordinates/PolarCoordinate";
 
 describe('Straight-line distance computation tests', () => {
   it('test Cartesian to Cartesian', () => {

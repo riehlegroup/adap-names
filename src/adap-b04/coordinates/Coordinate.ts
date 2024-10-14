@@ -1,4 +1,4 @@
-import { Equality } from ".../common/Equality";
+import { Equality } from "../common/Equality";
 import { Cloneable } from "../common/Cloneable";
 
 export interface Coordinate extends Equality, Cloneable {
@@ -18,5 +18,6 @@ export interface Coordinate extends Equality, Cloneable {
     setPhi(phi: number): void;
 
     calcGreatCircleDistance(other: Coordinate): number;
+
 
 }

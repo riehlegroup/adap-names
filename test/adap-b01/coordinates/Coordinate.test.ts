@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { Coordinate } from "../../src/adap-b01/Coordinate";
+import { Coordinate } from "../../../src/adap-b01/coordinates/Coordinate";
 
 describe('Basic Coordinate function tests', () => {
   it('should compute straight-line distance', () => {

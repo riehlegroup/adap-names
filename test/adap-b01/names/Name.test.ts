@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { Name } from "./names/Name";
+import { Name } from "../../../src/adap-b01/names/Name";
 
 describe("Basic initialization tests", () => {
   it("test construction 1", () => {
