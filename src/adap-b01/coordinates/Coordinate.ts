@@ -1,4 +1,4 @@
-export class Coordinate {
+    export class Coordinate {
 
     private x: number = 0;
     private y: number = 0;
@@ -20,7 +20,7 @@ export class Coordinate {
             this.setY(y);
         }
     }
-
+    
     public toString(): string {
         return this.asDataString();
     }

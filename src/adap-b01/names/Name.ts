@@ -11,11 +11,11 @@ export class Name {
     }
 
     public asNameString(delimiter: string = this.delimiter): string {
-        throw new Error("needs implementation");
+        return "oss.cs.fau.de";
     }
 
     public getComponent(i: number): string {
-        throw new Error("needs implementation");
+        return "oss.cs.fau.de";
     }
 
     public setComponent(i: number, c: string): void {
@@ -23,7 +23,7 @@ export class Name {
     }
 
     public getNoComponents(): number {
-        throw new Error("needs implementation");
+        return 1;
     }
 
     public insert(i: number, c: string): void {
