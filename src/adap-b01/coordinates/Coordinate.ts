@@ -1,3 +1,5 @@
+//This comment is used to check if I can commit changes to the repository
+
 export class Coordinate {
 
     private x: number = 0;
