@@ -3,7 +3,7 @@ export const ESCAPE_CHARACTER = '\\';
 
 export interface Name {
 
-    // Returns human-readable representation of Name instance
+    /** Returns human-readable representation of Name instance */
     asNameString(delimiter?: string): string;
 
     isEmpty(): boolean;
