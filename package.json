@@ -9,9 +9,9 @@
     "test:b01": "vitest --dir test/adap-b01*",
     "test:b02": "vitest --dir test/adap-b02*",
     "test:b03": "vitest --dir test/adap-b03*",
-    "test:b04": "vitest --dir test/adap-b04*",
-    "test:b05": "vitest --dir test/adap-b05*",
-    "test:b06": "vitest --dir test/adap-b06*"
+    "test:b04": "vitest --dir test/adap-b04* --passWithNoTests",
+    "test:b05": "vitest --dir test/adap-b05* --passWithNoTests",
+    "test:b06": "vitest --dir test/adap-b06* --passWithNoTests"
   },
   "keywords": [],
   "author": "Dirk Riehle",
