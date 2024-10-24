@@ -8,6 +8,7 @@ export interface Name {
 
     isEmpty(): boolean;
 
+    /** Returns number of components in Name instance */
     getNoComponents(): number;
 
     getComponent(i: number): string;
