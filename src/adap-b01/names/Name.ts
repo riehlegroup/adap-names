@@ -16,7 +16,9 @@ export class Name {
 
     // @methodtype conversion-method
     public asNameString(delimiter: string = this.delimiter): string {
-        return this.components.join(delimiter);
+        return this.components.map(str =>
+        str.replace(new RegExp('\\' + this.delimiter, 'g'), this.ESCAPE_CHARACTER + this.delimiter)
+        ).join(this.delimiter);
     }
     
     // @methodtype get-method
@@ -26,7 +28,11 @@ export class Name {
     
     // @methodtype set-method
     public setComponent(i: number, c: string): void {
-        this.components[i] = c;
+        if ((0 <= i)  &&  (i < this.getNoComponents())) {
+            this.components[i] = c;
+        } else {
+            throw new Error("Index out of bounds.");
+        }
     }
 
     // @methodtype get-method
@@ -36,7 +42,12 @@ export class Name {
 
     // @methodtype command-method
     public insert(i: number, c: string): void {
-        this.components.splice(i, 0, c)
+        if ((0 <= i)  && (i < this.getNoComponents())) {
+            this.components.splice(i, 0, c);
+        } else {
+            throw new Error("Index out of bounds.");
+        }
+
     }
     
     // @methodtype command-method
@@ -46,7 +57,12 @@ export class Name {
 
     // @methodtype command-method
     public remove(i: number): void {
-        this.components.splice(i, 1);
+        if ((0 <= i) && (i < this.getNoComponents())) {
+            this.components.splice(i, 1);
+        } else {
+            throw new Error("Index out of bounds.");
+        }
+
     }
 
 }
