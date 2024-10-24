@@ -6,7 +6,7 @@
   "scripts": {
     "build": "tsc",
     "test": "vitest",
-    "test:b01": "vitest --dir test/adap-b01*",
+    "test:b01": "vitest --dir test/adap-b01",
     "test:b02": "vitest --dir test/adap-b02*",
     "test:b03": "vitest --dir test/adap-b03*",
     "test:b04": "vitest --dir test/adap-b04*",

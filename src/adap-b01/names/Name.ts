@@ -15,26 +15,19 @@ export class Name {
 
 
     public asNameString(delimiter: string = this.delimiter): string {
-        // Join components with the delimiter, escaping delimiters and escape characters inside components
-        return this.components
-            .map(component =>
-                component
-                    .split(this.ESCAPE_CHARACTER).join(this.ESCAPE_CHARACTER + this.ESCAPE_CHARACTER)
-                    .split(delimiter).join(this.ESCAPE_CHARACTER + delimiter)
-            )
-            .join(delimiter);
+        return this.components.join(delimiter);
     }
 
     public getComponent(i: number): string {
         if (i < 0 || i >= this.components.length) {
-            throw new Error("Index out of bounds");
+            throw new Error(`Index out of bounds: ${i}. Valid range is 0 to ${this.components.length - 1}.`);
         }
         return this.components[i];
     }
 
     public setComponent(i: number, c: string): void {
         if (i < 0 || i >= this.components.length) {
-            throw new Error("Index out of bounds");
+            throw new Error(`Index out of bounds: ${i}. Valid range is 0 to ${this.components.length - 1}.`);
         }
         this.components[i] = c;
     }
@@ -45,7 +38,7 @@ export class Name {
 
     public insert(i: number, c: string): void {
         if (i < 0 || i > this.components.length) {
-            throw new Error("Index out of bounds");
+            throw new Error(`Index out of bounds: ${i}. Valid range is 0 to ${this.components.length}.`);
         }
         this.components.splice(i, 0, c);
     }
@@ -56,7 +49,7 @@ export class Name {
 
     public remove(i: number): void {
         if (i < 0 || i >= this.components.length) {
-            throw new Error("Index out of bounds");
+            throw new Error(`Index out of bounds: ${i}. Valid range is 0 to ${this.components.length - 1}.`);
         }
         this.components.splice(i, 1);
     }
