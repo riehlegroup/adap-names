@@ -83,4 +83,4 @@ export class Coordinate {
         return Math.hypot(deltaX, deltaY);
     }
 
- }
+}
