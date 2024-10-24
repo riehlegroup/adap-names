@@ -23,7 +23,8 @@ export class Name {
         throw new Error("needs implementation");
     }
 
-    public getNoComponents(): number {
+     /** Returns number of components in Name instance */
+     public getNoComponents(): number {
         throw new Error("needs implementation");
     }
 
