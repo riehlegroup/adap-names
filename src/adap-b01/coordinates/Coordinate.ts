@@ -60,6 +60,7 @@ export class Coordinate {
         this.initialize(0, 0);
     }
 
+    /** @methodtype get-method */
     public getX(): number {
         return this.x;
     }
