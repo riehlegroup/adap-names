@@ -1,4 +1,24 @@
-dist
-node_modules
-solution
-.vscode
+# Ignore build output
+dist/
+
+# Ignore dependencies
+node_modules/
+
+# Ignore solution directory
+solution/
+
+# Ignore VSCode settings
+.vscode/
+
+# Ignore all files in .idea, but keep essential project settings
+.idea/*
+!.idea/modules.xml
+!.idea/*.iml
+!.idea/vcs.xml
+
+# Ignore workspace-specific and other non-essential files
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/usage.statistics.xml
+.idea/dictionaries
+.idea/shelf
