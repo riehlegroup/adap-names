@@ -14,7 +14,7 @@ export class Name {
         this.components = other;
     }
 
-    /** methodtype conversion-method*/
+    /** @methodtype conversion-method*/
     public asNameString(delimiter: string = this.delimiter): string {
         return this.components.join(delimiter);
     }
@@ -48,12 +48,14 @@ export class Name {
         this.components.splice(i, 0 ,c);
     }
 
+    /** @methodtype command-method */
     public append(c: string): void {
-        throw new Error("needs implementation");
+        this.components.push(c);
     }
 
+    /** @methodtype command-method */
     public remove(i: number): void {
-        throw new Error("needs implementation");
+        this.components.splice(i, 1);
     }
 
 }
