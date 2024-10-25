@@ -5,6 +5,8 @@ export interface Coordinate extends Equality, Cloneable {
 
     reset(): void;
 
+    createOrigin(): Coordinate;
+
     getX(): number;
     setX(x: number): void;
     getY(): number;
