@@ -14,19 +14,19 @@ export class Name {
         }
     }
 
-    // @methodtype conversion-method
+    /** @methodtype conversion-method */
     public asNameString(delimiter: string = this.delimiter): string {
         return this.components.map(str =>
         str.replace(new RegExp('\\' + this.delimiter, 'g'), this.ESCAPE_CHARACTER + this.delimiter)
         ).join(this.delimiter);
     }
     
-    // @methodtype get-method
+    /** @methodtype get-method */
     public getComponent(i: number): string {
         return this.components[i];
     }
     
-    // @methodtype set-method
+    /** @methodtype set-method */
     public setComponent(i: number, c: string): void {
         if ((0 <= i)  &&  (i < this.getNoComponents())) {
             this.components[i] = c;
@@ -35,12 +35,12 @@ export class Name {
         }
     }
 
-    // @methodtype get-method
+    /** @methodtype get-method */
     public getNoComponents(): number {
         return this.components.length;
     }
 
-    // @methodtype command-method
+    /** @methodtype command-method */
     public insert(i: number, c: string): void {
         if ((0 <= i)  && (i < this.getNoComponents())) {
             this.components.splice(i, 0, c);
@@ -50,12 +50,12 @@ export class Name {
 
     }
     
-    // @methodtype command-method
+    /** @methodtype command-method */
     public append(c: string): void {
         this.components.push(c);
     }
 
-    // @methodtype command-method
+    /** @methodtype command-method */
     public remove(i: number): void {
         if ((0 <= i) && (i < this.getNoComponents())) {
             this.components.splice(i, 1);
