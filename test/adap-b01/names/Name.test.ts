@@ -51,6 +51,9 @@ describe("custom tests", () => {
 
         let n5: Name = new Name(["oss@cs", "fau@de"]);
         expect(n5.asNameString("@")).toBe("oss\\@cs@fau\\@de")
+
+        let n6: Name = new Name(["", "", ""]);
+        expect(n6.asNameString()).toBe("..");
     });
 
     it("test getComponent", () => {
