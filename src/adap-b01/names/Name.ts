@@ -6,7 +6,7 @@ export class Name {
     private components: string[] = [];
     private delimiter: string = this.DEFAULT_DELIMITER;
 
-    // @methodtype initialization-method
+    /** @methodtype initialization-method */
     constructor(other: string[], delimiter?: string) {
         this.components = other
         if (delimiter != undefined) {
@@ -17,18 +17,22 @@ export class Name {
     /** @methodtype conversion-method */
     public asNameString(delimiter: string = this.delimiter): string {
         return this.components.map(str =>
-        str.replace(new RegExp('\\' + this.delimiter, 'g'), this.ESCAPE_CHARACTER + this.delimiter)
-        ).join(this.delimiter);
+        str.replace(new RegExp('\\' + delimiter, 'g'), this.ESCAPE_CHARACTER + delimiter)
+        ).join(delimiter);
     }
     
     /** @methodtype get-method */
     public getComponent(i: number): string {
-        return this.components[i];
+        if ((i >= 0) && (i < this.getNoComponents())) {
+          return this.components[i];
+        } else {
+            throw new Error("Index out of bounds.");
+        }
     }
     
     /** @methodtype set-method */
     public setComponent(i: number, c: string): void {
-        if ((0 <= i)  &&  (i < this.getNoComponents())) {
+        if ((i >= 0) && (i < this.getNoComponents())) {
             this.components[i] = c;
         } else {
             throw new Error("Index out of bounds.");
@@ -42,7 +46,7 @@ export class Name {
 
     /** @methodtype command-method */
     public insert(i: number, c: string): void {
-        if ((0 <= i)  && (i < this.getNoComponents())) {
+        if ((i >= 0) && (i <= this.getNoComponents())) {
             this.components.splice(i, 0, c);
         } else {
             throw new Error("Index out of bounds.");
@@ -57,7 +61,7 @@ export class Name {
 
     /** @methodtype command-method */
     public remove(i: number): void {
-        if ((0 <= i) && (i < this.getNoComponents())) {
+        if ((i >= 0) && (i < this.getNoComponents())) {
             this.components.splice(i, 1);
         } else {
             throw new Error("Index out of bounds.");
