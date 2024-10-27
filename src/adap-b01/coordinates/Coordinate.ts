@@ -1,3 +1,10 @@
+function methodtype(type: string) {
+    return function(target: any) {
+        target.methodtype = type;
+        return target;
+    }
+}
+
 export class Coordinate {
 
     private x: number = 0;
@@ -60,7 +67,7 @@ export class Coordinate {
         this.initialize(0, 0);
     }
 
-    /** @methodtype get-method */
+    @methodtype("get-method")
     public getX(): number {
         return this.x;
     }
