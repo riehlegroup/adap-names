@@ -15,22 +15,20 @@ export class Name {
 
     /** @methodtype get-method */
     public asNameString(delimiter: string = this.delimiter): string {
-        return this.components.join(delimiter);
+        return this.components
+            .map(component => component.replace(this.delimiter, this.ESCAPE_CHARACTER + delimiter))
+            .join(delimiter);
     }
 
     /** @methodtype get-method */
     public getComponent(i: number): string {
-        if (i < 0 || i >= this.components.length) {
-            throw new Error(`Index out of bounds: ${i}. Valid range is 0 to ${this.components.length - 1}.`);
-        }
+        this.checkIndexBounds(i, false);
         return this.components[i];
     }
 
     /** @methodtype set-method */
     public setComponent(i: number, c: string): void {
-        if (i < 0 || i >= this.components.length) {
-            throw new Error(`Index out of bounds: ${i}. Valid range is 0 to ${this.components.length - 1}.`);
-        }
+        this.checkIndexBounds(i, false);
         this.components[i] = c;
     }
 
@@ -41,9 +39,7 @@ export class Name {
 
     /** @methodtype insert-method */
     public insert(i: number, c: string): void {
-        if (i < 0 || i > this.components.length) {
-            throw new Error(`Index out of bounds: ${i}. Valid range is 0 to ${this.components.length}.`);
-        }
+        this.checkIndexBounds(i, true);
         this.components.splice(i, 0, c);
     }
 
@@ -54,9 +50,14 @@ export class Name {
 
     /** @methodtype remove-method */
     public remove(i: number): void {
-        if (i < 0 || i >= this.components.length) {
-            throw new Error(`Index out of bounds: ${i}. Valid range is 0 to ${this.components.length - 1}.`);
-        }
+        this.checkIndexBounds(1, false);
         this.components.splice(i, 1);
     }
+    private checkIndexBounds(index: number, canInsertAtEnd: boolean = false): void {
+        const upperBound = canInsertAtEnd ? this.components.length : this.components.length - 1;
+        if (index < 0 || index > upperBound) {
+            throw new Error(`Index ${index} is out of bounds. Allowed range: 0 to ${upperBound}.`);
+        }
+    }
+
 }
