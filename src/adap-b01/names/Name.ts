@@ -1,11 +1,10 @@
 export class Name {
 
     public readonly DEFAULT_DELIMITER: string = '.';
-    c
+    private readonly ESCAPE_CHARACTER = '\\';
 
     private components: string[] = [];
     private delimiter: string = this.DEFAULT_DELIMITER;
-
 
     /** @methodtype initialization-method */
     constructor(other: string[], delimiter?: string) {
