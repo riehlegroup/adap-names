@@ -7,52 +7,106 @@ export class StringName implements Name {
     protected name: string = "";
     protected length: number = 0;
 
+    /** @methodtype initialization-method */
     constructor(other: string, delimiter?: string) {
-        throw new Error("needs implementation");
+        if (delimiter !== undefined){
+            this.delimiter = delimiter;
+        }
+        this.name = other;
+        this.length = this.name.length;
     }
 
+    /** @methodtype conversion-method*/
     public asString(delimiter: string = this.delimiter): string {
-        throw new Error("needs implementation");
+        const escapedDelimiter = ESCAPE_CHARACTER.concat(delimiter);
+        return this.name
+            .split(this.delimiter)
+            .map(component => component.replace(new RegExp(`\\${delimiter}`, "g"), escapedDelimiter))
+            .join(delimiter);
     }
 
+    /** @methodtype conversion-method*/
     public asDataString(): string {
-        throw new Error("needs implementation");
+        return this.name
+            .split(this.delimiter)
+            .map(component =>
+                component
+                    .replace(new RegExp(`\\${ESCAPE_CHARACTER}`, "g"), ESCAPE_CHARACTER + ESCAPE_CHARACTER)
+                    .replace(new RegExp(`\\${DEFAULT_DELIMITER}`, "g"), ESCAPE_CHARACTER + DEFAULT_DELIMITER)
+            )
+            .join(DEFAULT_DELIMITER);
     }
 
+    /** @methodtype boolean-query-method*/
     public isEmpty(): boolean {
-        throw new Error("needs implementation");
+        return this.name.length === 0;
     }
 
+    /** @methodtype get-method */
     public getDelimiterCharacter(): string {
-        throw new Error("needs implementation");
+        return this.delimiter;
     }
 
+    /** Returns number of components in Name instance
+     * @methodtype get-method */
     public getNoComponents(): number {
-        throw new Error("needs implementation");
+        if (this.name === "") {
+            return 0; 
+        }
+        return this.name.split(this.delimiter).length;
     }
 
-    public getComponent(x: number): string {
-        throw new Error("needs implementation");
+    /** @methodtype get-method */
+   public getComponent(x: number): string {
+        const components = this.name.split(this.delimiter);
+        if (x < 0 || x >= this.getNoComponents()){
+            throw new Error ("Index out of bounds");
+        }
+        return components[x];
     }
 
+    /** @methodtype set-method */
     public setComponent(n: number, c: string): void {
-        throw new Error("needs implementation");
+        const components = this.name.split(this.delimiter);
+        if (n < 0 || n >= this.getNoComponents()){
+            throw new Error ("Index out of bounds");
+        }
+        components[n] = c;
+        this.name = components.join(this.delimiter);
     }
 
+    /** @methodtype command-method */
     public insert(n: number, c: string): void {
-        throw new Error("needs implementation");
+        const components = this.name.split(this.delimiter);
+        if (n < 0 || n >= this.getNoComponents()){
+            throw new Error ("Index out of bounds");
+        }
+        components.splice(n, 0 ,c);
+        this.name = components.join(this.delimiter);
     }
 
+    /** @methodtype command-method */
     public append(c: string): void {
-        throw new Error("needs implementation");
+        this.name += this.delimiter + c;
     }
 
+    /** @methodtype command-method */
     public remove(n: number): void {
-        throw new Error("needs implementation");
+        const components = this.name.split(this.delimiter);
+        if (n < 0 || n >= this.getNoComponents()){
+             throw new Error("Index out of bounds");
+        }
+        components.splice(n, 1);
+        this.name = components.join(this.delimiter);
     }
 
-    public concat(other: Name): void {
-        throw new Error("needs implementation");
+     /** @methodtype command-method */
+     public concat(other: Name): void {
+        if (other instanceof StringName) {
+            this.name += this.delimiter + other.name;
+        } else {
+            throw new Error("Name has invalid instance");
+        }
     }
 
 }

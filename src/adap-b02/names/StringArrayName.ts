@@ -4,53 +4,94 @@ export class StringArrayName implements Name {
 
     protected components: string[] = [];
     protected delimiter: string = DEFAULT_DELIMITER;
+    ESCAPE_CHARACTER: any;
 
+    /** @methodtype initialization-method */
     constructor(other: string[], delimiter?: string) {
-        throw new Error("needs implementation");
+        if (delimiter !== undefined){
+            this.delimiter = delimiter;
+        }
+        this.components = other;
+        this.ESCAPE_CHARACTER = "\\";
     }
 
+    /** @methodtype conversion-method*/
     public asString(delimiter: string = this.delimiter): string {
-        throw new Error("needs implementation");
+        return this.components.map(x => x.split(delimiter).join(this.ESCAPE_CHARACTER.concat(delimiter))).join(delimiter);
     }
 
+    /** @methodtype conversion-method*/
     public asDataString(): string {
-        throw new Error("needs implementation");
+        return this.components
+            .map((component) => {
+                // Escape delimiter and escape characters within each component
+                return component
+                    .replace(new RegExp(`\\${ESCAPE_CHARACTER}`, "g"), ESCAPE_CHARACTER + ESCAPE_CHARACTER)
+                    .replace(new RegExp(`\\${DEFAULT_DELIMITER}`, "g"), ESCAPE_CHARACTER + DEFAULT_DELIMITER);
+            })
+            .join(DEFAULT_DELIMITER);
     }
 
+    /** @methodtype boolean-query-method*/
     public isEmpty(): boolean {
-        throw new Error("needs implementation");
+        return this.components.length === 0;
     }
 
+    /** @methodtype get-method */
     public getDelimiterCharacter(): string {
-        throw new Error("needs implementation");
+        return this.delimiter;
     }
 
+    /** Returns number of components in Name instance
+     * @methodtype get-method */
     public getNoComponents(): number {
-        throw new Error("needs implementation");
+        return this.components.length;
     }
 
-    public getComponent(i: number): string {
-        throw new Error("needs implementation");
+    /** @methodtype get-method */
+   public getComponent(i: number): string {
+        if (i < 0 || i >= this.getNoComponents()){
+            throw new Error ("Index out of bounds");
+        }
+        return this.components[i];
     }
 
+    /** @methodtype set-method */
     public setComponent(i: number, c: string): void {
-        throw new Error("needs implementation");
+        if (i < 0 || i>= this.getNoComponents()){
+            throw new Error ("Index out of bounds");
+        }
+        this.components[i] = c;
     }
 
+    /** @methodtype command-method */
     public insert(i: number, c: string): void {
-        throw new Error("needs implementation");
+        if (i < 0 || i >= this.getNoComponents()){
+            throw new Error ("Index out of bounds");
+        }
+        this.components.splice(i, 0 ,c);
     }
 
+    /** @methodtype command-method */
     public append(c: string): void {
-        throw new Error("needs implementation");
+        this.components.push(c);
     }
 
+    /** @methodtype command-method */
     public remove(i: number): void {
-        throw new Error("needs implementation");
+        if (i < 0 || i >= this.getNoComponents()){
+             throw new Error("Index out of bounds");
+        }
+        this.components.splice(i, 1);
     }
 
+    /** @methodtype command-method */
     public concat(other: Name): void {
-        throw new Error("needs implementation");
+        if (other instanceof StringArrayName) {
+            this.components = [...this.components, ...other.components];
+        } else {
+            throw new Error("Name has invalid instance");
+        }
     }
 
 }
