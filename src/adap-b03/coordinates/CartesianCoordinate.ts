@@ -12,9 +12,9 @@ export class CartesianCoordinate extends AbstractCoordinate {
         this.initialize(x, y);
     }
 
-    public static getOrigin(): Coordinate {
+    public createOrigin(): Coordinate {
         return new CartesianCoordinate(0, 0);
-    }
+    }  
 
     public initialize(x?: number, y?: number): void {
         if (x != undefined) {

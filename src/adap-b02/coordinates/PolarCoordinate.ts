@@ -9,9 +9,9 @@ export class PolarCoordinate implements Coordinate {
         this.initialize(r, phi);
     }
 
-    public static getOrigin(): Coordinate {
+    public createOrigin(): Coordinate {
         return new PolarCoordinate(0, 0);
-    }
+    }  
 
     public initialize(r?: number, phi?: number): void {
         if (r != undefined) {
