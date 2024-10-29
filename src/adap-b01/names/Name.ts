@@ -13,6 +13,7 @@ export class Name {
        }
     }
 
+    /** Returns human-readable representation of Name instance */
     public asNameString(delimiter: string = this.delimiter): string {
         let name: string = ''
 
