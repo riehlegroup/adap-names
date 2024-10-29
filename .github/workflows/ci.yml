@@ -37,24 +37,24 @@ jobs:
 
       - name: Run tests for exercise B01
         run: npm run test:b01
-        if: ${{ !cancelled() }}
+        if: ${{ !cancelled() && github.event.head_commit.timestamp >= '2024-10-21T12:00:00Z' }}
 
       - name: Run tests for exercise B02
         run: npm run test:b02
-        if: ${{ !cancelled() }}
+        if: ${{ !cancelled() && github.event.head_commit.timestamp >= '2024-10-28T12:00:00Z' }}
 
       - name: Run tests for exercise B03
         run: npm run test:b03
-        if: ${{ !cancelled() }}
+        if: ${{ !cancelled() && github.event.head_commit.timestamp >= '2024-11-11T12:00:00Z' }}
 
       - name: Run tests for exercise B04
         run: npm run test:b04
-        if: ${{ !cancelled() }}
+        if: ${{ !cancelled() && github.event.head_commit.timestamp >= '2024-11-18T12:00:00Z' }}
 
       - name: Run tests for exercise B05
         run: npm run test:b05
-        if: ${{ !cancelled() }}
+        if: ${{ !cancelled() && github.event.head_commit.timestamp >= '2024-11-25T12:00:00Z' }}
 
       - name: Run tests for exercise B06
         run: npm run test:b06
-        if: ${{ !cancelled() }}
+        if: ${{ !cancelled() && github.event.head_commit.timestamp >= '2024-12-02T12:00:00Z' }}

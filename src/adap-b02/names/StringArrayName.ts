@@ -9,11 +9,19 @@ export class StringArrayName implements Name {
         throw new Error("needs implementation");
     }
 
-    public asNameString(delimiter: string = this.delimiter): string {
+    public asString(delimiter: string = this.delimiter): string {
+        throw new Error("needs implementation");
+    }
+
+    public asDataString(): string {
         throw new Error("needs implementation");
     }
 
     public isEmpty(): boolean {
+        throw new Error("needs implementation");
+    }
+
+    public getDelimiterCharacter(): string {
         throw new Error("needs implementation");
     }
 
