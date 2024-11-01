@@ -4,6 +4,7 @@ export class StringArrayName implements Name {
   protected components: string[] = [];
   protected delimiter: string = DEFAULT_DELIMITER;
 
+    /** @methodtype object creation-method */
   constructor(other: string[], delimiter?: string) {
     if (other) {
       this.components = other;
@@ -13,6 +14,7 @@ export class StringArrayName implements Name {
     }
   }
 
+    /** @methodtype conversion-method */
   public asString(delimiter: string = this.delimiter): string {
     let string = "";
     for (let i = 0; i < this.components.length; i++) {
@@ -25,22 +27,27 @@ export class StringArrayName implements Name {
     return string;
   }
 
+    /** @methodtype conversion-method */
   public asDataString(): string {
     return this.asString(ESCAPE_CHARACTER + this.delimiter);
   }
 
+  /** @methodtype boolean query-method */
   public isEmpty(): boolean {
     return !this.components;
   }
 
+  /** @methodtype get-method */
   public getDelimiterCharacter(): string {
     return this.delimiter;
   }
 
+  /** @methodtype get-method */
   public getNoComponents(): number {
     return this.components.length;
   }
 
+  /** @methodtype get-method */
   public getComponent(i: number): string {
     if(i >= 0 && i < this.getNoComponents()){
         return this.components[i];
@@ -48,22 +55,26 @@ export class StringArrayName implements Name {
     return "";
   }
 
+  /** @methodtype set-method */
   public setComponent(i: number, c: string): void {
     if(i >= 0 && i < this.getNoComponents()){
         this.components[i] = c;
     }
   }
 
+  /** @methodtype command-method */
   public insert(i: number, c: string): void {
     if (i >= 0 && i <= this.components.length) {
         this.components.splice(i, 0, c);
       }
   }
 
+  /** @methodtype command-method */
   public append(c: string): void {
     this.components.push(c);
   }
 
+  /** @methodtype command-method */
   public remove(i: number): void {
     if (i >= 0 && i < this.components.length) {
         this.components.splice(i, 1);
