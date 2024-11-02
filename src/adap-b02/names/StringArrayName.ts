@@ -4,7 +4,7 @@ export class StringArrayName implements Name {
   protected components: string[] = [];
   protected delimiter: string = DEFAULT_DELIMITER;
 
-    /** @methodtype object creation-method */
+  /** @methodtype object creation-method */
   constructor(other: string[], delimiter?: string) {
     if (other) {
       this.components = other;
@@ -14,20 +14,12 @@ export class StringArrayName implements Name {
     }
   }
 
-    /** @methodtype conversion-method */
+  /** @methodtype conversion-method */
   public asString(delimiter: string = this.delimiter): string {
-    let string = "";
-    for (let i = 0; i < this.components.length; i++) {
-      if (i === this.components.length - 1) {
-        string = string + this.components[i];
-      } else {
-        string = string + this.components[i] + delimiter;
-      }
-    }
-    return string;
+    return this.components.join(delimiter);
   }
 
-    /** @methodtype conversion-method */
+  /** @methodtype conversion-method */
   public asDataString(): string {
     return this.asString(ESCAPE_CHARACTER + this.delimiter);
   }
@@ -49,24 +41,24 @@ export class StringArrayName implements Name {
 
   /** @methodtype get-method */
   public getComponent(i: number): string {
-    if(i >= 0 && i < this.getNoComponents()){
-        return this.components[i];
+    if (i >= 0 && i < this.getNoComponents()) {
+      return this.components[i];
     }
     return "";
   }
 
   /** @methodtype set-method */
   public setComponent(i: number, c: string): void {
-    if(i >= 0 && i < this.getNoComponents()){
-        this.components[i] = c;
+    if (i >= 0 && i < this.getNoComponents()) {
+      this.components[i] = c;
     }
   }
 
   /** @methodtype command-method */
   public insert(i: number, c: string): void {
     if (i >= 0 && i <= this.components.length) {
-        this.components.splice(i, 0, c);
-      }
+      this.components.splice(i, 0, c);
+    }
   }
 
   /** @methodtype command-method */
@@ -77,11 +69,14 @@ export class StringArrayName implements Name {
   /** @methodtype command-method */
   public remove(i: number): void {
     if (i >= 0 && i < this.components.length) {
-        this.components.splice(i, 1);
-      }
+      this.components.splice(i, 1);
+    }
   }
 
+  /** @methodtype command-method */
   public concat(other: Name): void {
-    throw new Error("needs implementation");
+    for (let i = 0; i < other.getNoComponents(); i++) {
+      this.append(other.getComponent(i));
+    }
   }
 }

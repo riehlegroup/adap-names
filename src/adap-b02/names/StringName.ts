@@ -8,7 +8,9 @@ export class StringName implements Name {
 
   /** @methodtype object creation-method */
   constructor(other: string, delimiter?: string) {
-    this.name = other;
+    if (other) {
+      this.name = other;
+    }
     if (delimiter) {
       this.delimiter = delimiter;
     }
@@ -17,15 +19,22 @@ export class StringName implements Name {
   /** @methodtype conversion-method */
   public asString(delimiter: string = this.delimiter): string {
     let nameWithOldDelim = this.name;
-    return nameWithOldDelim.replaceAll(this.delimiter, delimiter);
-  }
+    const ESCAPED_DELIM_PLACEHOLDER = ESCAPE_CHARACTER;
+    nameWithOldDelim = nameWithOldDelim.replaceAll(
+      ESCAPE_CHARACTER + this.delimiter,
+      ESCAPED_DELIM_PLACEHOLDER
+    );// Not fully perfect
+    nameWithOldDelim = nameWithOldDelim.replaceAll(this.delimiter, delimiter);
+    nameWithOldDelim = nameWithOldDelim.replaceAll(
+      ESCAPED_DELIM_PLACEHOLDER,
+      this.delimiter
+    );
 
+    return nameWithOldDelim;
+  }
   /** @methodtype conversion-method */
   public asDataString(): string {
-    return this.name.replaceAll(
-      this.delimiter,
-      ESCAPE_CHARACTER + this.delimiter
-    );
+    return this.name;
   }
 
   /** @methodtype boolean query-method */
@@ -87,7 +96,10 @@ export class StringName implements Name {
     this.name = arrayOfComponents.join(this.delimiter);
   }
 
+  /** @methodtype command-method */
   public concat(other: Name): void {
-    throw new Error("needs implementation");
+    for (let i = 0; i < other.getNoComponents(); i++) {
+      this.append(other.getComponent(i));
+    }
   }
 }
