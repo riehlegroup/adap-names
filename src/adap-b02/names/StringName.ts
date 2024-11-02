@@ -19,16 +19,15 @@ export class StringName implements Name {
   /** @methodtype conversion-method */
   public asString(delimiter: string = this.delimiter): string {
     let nameWithOldDelim = this.name;
-    const ESCAPED_DELIM_PLACEHOLDER = ESCAPE_CHARACTER;
-    nameWithOldDelim = nameWithOldDelim.replaceAll(
-      ESCAPE_CHARACTER + this.delimiter,
-      ESCAPED_DELIM_PLACEHOLDER
-    );// Not fully perfect
-    nameWithOldDelim = nameWithOldDelim.replaceAll(this.delimiter, delimiter);
-    nameWithOldDelim = nameWithOldDelim.replaceAll(
-      ESCAPED_DELIM_PLACEHOLDER,
-      this.delimiter
-    );
+
+    const pattern = new RegExp(`(${ESCAPE_CHARACTER}|)(${this.delimiter})`, 'g');
+    nameWithOldDelim = nameWithOldDelim.replace(pattern, (match) => {
+      if (match === `${ESCAPE_CHARACTER}${this.delimiter}`) {
+        return this.delimiter;
+      } else {
+        return delimiter;
+      }
+    });
 
     return nameWithOldDelim;
   }
@@ -49,6 +48,7 @@ export class StringName implements Name {
 
   /** @methodtype get-method */
   public getNoComponents(): number {
+     // ??????????????????????????????????????????????????????????????????????????
     let amountOfComponentsWithEscapedDelim =
       this.name.split(ESCAPE_CHARACTER + this.delimiter).length || 0;
     let amountOfComponentsWithDelim =
