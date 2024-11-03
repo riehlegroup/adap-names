@@ -16,19 +16,23 @@ export class StringArrayName implements Name {
 
   /** @methodtype conversion-method */
   public asString(delimiter: string = this.delimiter): string {
+    this.components = this.components.map((componentString) => {
+      return componentString.replace(
+        ESCAPE_CHARACTER + this.delimiter,
+        this.delimiter
+      );
+    });
     return this.components.join(delimiter);
   }
 
   /** @methodtype conversion-method */
   public asDataString(): string {
-    return this.asString(ESCAPE_CHARACTER + this.delimiter);
-         // ??????????????????????????????????????????????????????????????????????????
-
+    return this.components.join(this.delimiter);
   }
 
   /** @methodtype boolean query-method */
   public isEmpty(): boolean {
-    return !this.components;
+    return this.components.length == 0
   }
 
   /** @methodtype get-method */
