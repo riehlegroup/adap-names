@@ -27,14 +27,7 @@ export class StringName implements Name {
 
     /** @methodtype conversion-method*/
     public asDataString(): string {
-        return this.name
-            .split(this.delimiter)
-            .map(component =>
-                component
-                    .replace(new RegExp(`\\${ESCAPE_CHARACTER}`, "g"), ESCAPE_CHARACTER + ESCAPE_CHARACTER)
-                    .replace(new RegExp(`\\${DEFAULT_DELIMITER}`, "g"), ESCAPE_CHARACTER + DEFAULT_DELIMITER)
-            )
-            .join(DEFAULT_DELIMITER);
+        return this.name;
     }
 
     /** @methodtype boolean-query-method*/
@@ -83,11 +76,13 @@ export class StringName implements Name {
         }
         components.splice(n, 0 ,c);
         this.name = components.join(this.delimiter);
+        this.length += 1;
     }
 
     /** @methodtype command-method */
     public append(c: string): void {
         this.name += this.delimiter + c;
+        this.length += 1;
     }
 
     /** @methodtype command-method */
@@ -98,12 +93,14 @@ export class StringName implements Name {
         }
         components.splice(n, 1);
         this.name = components.join(this.delimiter);
+        this.length -= 1;
     }
 
      /** @methodtype command-method */
      public concat(other: Name): void {
         if (other instanceof StringName) {
-            this.name += this.delimiter + other.name;
+            this.name += this.delimiter + other.asDataString;
+            this.length += other.getNoComponents();
         } else {
             throw new Error("Name has invalid instance");
         }

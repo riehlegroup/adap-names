@@ -4,7 +4,6 @@ export class StringArrayName implements Name {
 
     protected components: string[] = [];
     protected delimiter: string = DEFAULT_DELIMITER;
-    ESCAPE_CHARACTER: any;
 
     /** @methodtype initialization-method */
     constructor(other: string[], delimiter?: string) {
@@ -12,19 +11,17 @@ export class StringArrayName implements Name {
             this.delimiter = delimiter;
         }
         this.components = other;
-        this.ESCAPE_CHARACTER = "\\";
     }
 
     /** @methodtype conversion-method*/
     public asString(delimiter: string = this.delimiter): string {
-        return this.components.map(x => x.split(delimiter).join(this.ESCAPE_CHARACTER.concat(delimiter))).join(delimiter);
+        return this.components.join(delimiter);
     }
 
     /** @methodtype conversion-method*/
     public asDataString(): string {
         return this.components
             .map((component) => {
-                // Escape delimiter and escape characters within each component
                 return component
                     .replace(new RegExp(`\\${ESCAPE_CHARACTER}`, "g"), ESCAPE_CHARACTER + ESCAPE_CHARACTER)
                     .replace(new RegExp(`\\${DEFAULT_DELIMITER}`, "g"), ESCAPE_CHARACTER + DEFAULT_DELIMITER);
