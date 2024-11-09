@@ -22,7 +22,7 @@ export class StringArrayName implements Name {
         } else {
             return this.components.map(comp =>
                 comp
-                    .replaceAll(DEFAULT_DELIMITER, ESCAPE_CHARACTER + DEFAULT_DELIMITER) // escape default-delimiters 
+                    .replaceAll(this.getDelimRegExp(DEFAULT_DELIMITER), ESCAPE_CHARACTER + DEFAULT_DELIMITER) // escape default-delimiters 
                     .replaceAll(ESCAPE_CHARACTER + this.delimiter, this.delimiter) // un-escape instance-delimiters
             ).join(DEFAULT_DELIMITER);
 
@@ -81,5 +81,14 @@ export class StringArrayName implements Name {
         } else {
             throw new Error("Cannot concatenate names with different delimiters")
         }
+    }
+
+    private getDelimRegExp(delimiter: string = this.delimiter): RegExp {
+        // Escape delimiter if it's a special regex character
+        let escapedDelimiter: string = delimiter.replaceAll(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+        let escapedEscapeCharacter: string = ESCAPE_CHARACTER.replaceAll(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&'); // I actually feel stupid doing this
+
+        // RegExp to find all unescaped delimiter chars
+        return new RegExp(`(?<!${escapedEscapeCharacter})${escapedDelimiter}`, 'g');
     }
 }
