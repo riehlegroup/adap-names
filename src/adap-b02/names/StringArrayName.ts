@@ -6,51 +6,80 @@ export class StringArrayName implements Name {
     protected delimiter: string = DEFAULT_DELIMITER;
 
     constructor(other: string[], delimiter?: string) {
-        throw new Error("needs implementation");
+        this.components = other
+        if (delimiter != undefined) {
+            this.delimiter = delimiter;
+        }
     }
 
     public asString(delimiter: string = this.delimiter): string {
-        throw new Error("needs implementation");
+        return this.components.join(delimiter).replaceAll("\\", "");
     }
 
     public asDataString(): string {
-        throw new Error("needs implementation");
+        if (this.delimiter == DEFAULT_DELIMITER) { // trivial case
+            return this.components.join(DEFAULT_DELIMITER);
+        } else {
+            return this.components.map(comp =>
+                comp
+                    .replaceAll(DEFAULT_DELIMITER, ESCAPE_CHARACTER + DEFAULT_DELIMITER) // escape default-delimiters 
+                    .replaceAll(ESCAPE_CHARACTER + this.delimiter, this.delimiter) // un-escape instance-delimiters
+            ).join(DEFAULT_DELIMITER);
+
+        }
     }
 
     public isEmpty(): boolean {
-        throw new Error("needs implementation");
+        return this.components.length == 0;
     }
 
     public getDelimiterCharacter(): string {
-        throw new Error("needs implementation");
+        return this.delimiter;
     }
 
     public getNoComponents(): number {
-        throw new Error("needs implementation");
+        return this.components.length;
     }
 
     public getComponent(i: number): string {
-        throw new Error("needs implementation");
+        return this.components[i];
     }
 
     public setComponent(i: number, c: string): void {
-        throw new Error("needs implementation");
+        if ((i >= 0) && (i < this.getNoComponents())) {
+            this.components[i] = c;
+        } else {
+            throw new Error("Index out of bounds.");
+        }
     }
 
     public insert(i: number, c: string): void {
-        throw new Error("needs implementation");
+        if ((i >= 0) && (i <= this.getNoComponents())) {
+            this.components.splice(i, 0, c);
+        } else {
+            throw new Error("Index out of bounds.");
+        }
     }
 
     public append(c: string): void {
-        throw new Error("needs implementation");
+        this.components.push(c);
     }
 
     public remove(i: number): void {
-        throw new Error("needs implementation");
+        if ((i >= 0) && (i < this.getNoComponents())) {
+            this.components.splice(i, 1);
+        } else {
+            throw new Error("Index out of bounds.");
+        }
     }
 
     public concat(other: Name): void {
-        throw new Error("needs implementation");
+        if (other.getDelimiterCharacter() == this.getDelimiterCharacter()) {
+            for (let i = 0; i < other.getNoComponents(); i++) {
+                this.append(other.getComponent(i));
+            }
+        } else {
+            throw new Error("Cannot concatenate names with different delimiters")
+        }
     }
-
 }
