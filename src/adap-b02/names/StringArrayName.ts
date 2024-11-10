@@ -17,7 +17,7 @@ export class StringArrayName implements Name {
   /** @methodtype conversion-method */
   public asString(delimiter: string = this.delimiter): string {
     this.components = this.components.map((componentString) => {
-      return componentString.replace(
+      return componentString.replaceAll(
         ESCAPE_CHARACTER + this.delimiter,
         this.delimiter
       );

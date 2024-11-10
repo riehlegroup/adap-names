@@ -24,7 +24,7 @@ export class StringName implements Name {
     const regex = new RegExp(`(?<!\\${ESCAPE_CHARACTER})\\${this.delimiter}`, "g");
     let arrayOfComponents = this.name.split(regex);
     for (let index = 0; index < arrayOfComponents.length; index++) {
-      arrayOfComponents[index] = arrayOfComponents[index].replace(ESCAPE_CHARACTER + this.delimiter, this.delimiter);
+      arrayOfComponents[index] = arrayOfComponents[index].replaceAll(ESCAPE_CHARACTER + this.delimiter, this.delimiter);
     }
     const result = arrayOfComponents.join(delimiter);
     return result;
