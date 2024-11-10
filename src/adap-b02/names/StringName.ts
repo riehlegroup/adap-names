@@ -13,7 +13,7 @@ export class StringName implements Name {
     }
     if (other) {
       this.name = other;
-      const regex = new RegExp(`(?<!\\${ESCAPE_CHARACTER})\\${this.delimiter}`);
+      const regex = new RegExp(`(?<!\\${ESCAPE_CHARACTER})\\${this.delimiter}`, "g");
       let componentsWithDelimSplit = this.name.split(regex);;
       this.length = componentsWithDelimSplit.length;
     }
@@ -21,7 +21,7 @@ export class StringName implements Name {
 
   /** @methodtype conversion-method */
   public asString(delimiter: string = this.delimiter): string {
-    const regex = new RegExp(`(?<!\\${ESCAPE_CHARACTER})\\${this.delimiter}`);
+    const regex = new RegExp(`(?<!\\${ESCAPE_CHARACTER})\\${this.delimiter}`, "g");
     let arrayOfComponents = this.name.split(regex);
     for (let index = 0; index < arrayOfComponents.length; index++) {
       arrayOfComponents[index] = arrayOfComponents[index].replace(ESCAPE_CHARACTER + this.delimiter, this.delimiter);
@@ -51,14 +51,14 @@ export class StringName implements Name {
 
   /** @methodtype get-method */
   public getComponent(x: number): string {
-    const regex = new RegExp(`(?<!\\${ESCAPE_CHARACTER})\\${this.delimiter}`);
+    const regex = new RegExp(`(?<!\\${ESCAPE_CHARACTER})\\${this.delimiter}`, "g");
     let arrayOfComponents = this.name.split(regex);
     return arrayOfComponents[x];
   }
 
   /** @methodtype set-method */
   public setComponent(n: number, c: string): void {
-    const regex = new RegExp(`(?<!\\${ESCAPE_CHARACTER})\\${this.delimiter}`);
+    const regex = new RegExp(`(?<!\\${ESCAPE_CHARACTER})\\${this.delimiter}`, "g");
     let arrayOfComponents = this.name.split(regex);
     arrayOfComponents[n] = c;
     this.name = arrayOfComponents.join(this.delimiter);
@@ -66,7 +66,7 @@ export class StringName implements Name {
 
   /** @methodtype command-method */
   public insert(n: number, c: string): void {
-    const regex = new RegExp(`(?<!\\${ESCAPE_CHARACTER})\\${this.delimiter}`);
+    const regex = new RegExp(`(?<!\\${ESCAPE_CHARACTER})\\${this.delimiter}`, "g");
     let arrayOfComponents = this.name.split(regex);
 
     arrayOfComponents.splice(n, 0, c);
@@ -82,7 +82,7 @@ export class StringName implements Name {
 
   /** @methodtype command-method */
   public remove(n: number): void {
-    const regex = new RegExp(`(?<!\\${ESCAPE_CHARACTER})\\${this.delimiter}`);
+    const regex = new RegExp(`(?<!\\${ESCAPE_CHARACTER})\\${this.delimiter}`, "g");
     let arrayOfComponents = this.name.split(regex);
     arrayOfComponents.splice(n, 1);
     this.name = arrayOfComponents.join(this.delimiter);
