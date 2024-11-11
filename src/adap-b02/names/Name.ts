@@ -1,3 +1,5 @@
+import { Printable } from "../common/Printable";
+
 export const DEFAULT_DELIMITER: string = '.';
 export const ESCAPE_CHARACTER = '\\';
 
@@ -13,7 +15,7 @@ export const ESCAPE_CHARACTER = '\\';
  * "///" is a name with four empty components and the delimiter character '/'.
  * "Oh\.\.\." is a name with one component, if the delimiter character is '.'.
  */
-export interface Name {
+export interface Name extends Printable {
 
     /**
      * Returns a human-readable representation of the Name instance using user-set control characters

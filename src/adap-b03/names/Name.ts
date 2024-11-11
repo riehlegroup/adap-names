@@ -17,7 +17,7 @@ export const ESCAPE_CHARACTER = '\\';
  * "///" is a name with four empty components and the delimiter character '/'.
  * "Oh\.\.\." is a name with one component, if the delimiter character is '.'.
  */
-export interface Name extends Equality, Cloneable, Printable {
+export interface Name extends Printable, Cloneable, Equality {
 
     /**
      * Returns true, if number of components == 0; else false
