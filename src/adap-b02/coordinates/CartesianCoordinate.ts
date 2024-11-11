@@ -47,7 +47,7 @@ export class CartesianCoordinate implements Coordinate {
     }
 
     public clone(): Coordinate {
-        return new CartesianCoordinate(this.getX(), this.getY());
+        return new CartesianCoordinate(this.doGetX(), this.doGetY());
     }
 
     public reset(): void {
