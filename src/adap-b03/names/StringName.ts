@@ -7,28 +7,55 @@ export class StringName extends AbstractName {
     protected length: number = 0;
 
     constructor(other: string, delimiter?: string) {
-        super();
-        throw new Error("needs implementation");
+        super(delimiter);
+        this.name = other;
+        this.length = this.asStringArray().length;
     }
 
+  private getDelimRegExp(delimiter: string = this.delimiter): RegExp {
+    // Escape delimiter if it's a special regex character
+    let escapedDelimiter: string = delimiter.replaceAll(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+    let escapedEscapeCharacter: string = ESCAPE_CHARACTER.replaceAll(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&'); // I actually feel stupid doing this
+
+    // RegExp to find all unescaped delimiter chars
+    return new RegExp(`(?<!${escapedEscapeCharacter})${escapedDelimiter}`, 'g');
+  }
+
+  private asStringArray(): string[] {
+    let reg: RegExp = this.getDelimRegExp();
+    return this.name.split(reg);
+  }
     getNoComponents(): number {
-        throw new Error("needs implementation");
+        return this.length;
     }
 
     getComponent(i: number): string {
-        throw new Error("needs implementation");
+        this.assertInBounds(i);
+        return this.asStringArray()[i];
     }
     setComponent(i: number, c: string) {
-        throw new Error("needs implementation");
+        this.assertInBounds(i);
+        let components: string[] = this.asStringArray();
+        components[i] = c;
+        this.name = components.join(this.delimiter);
     }
 
     insert(i: number, c: string) {
-        throw new Error("needs implementation");
+        this.assertInBounds(i);
+        let components: string[] = this.asStringArray();
+        components.splice(i, 0, c);
+        this.name = components.join(this.delimiter);
+        this.length += 1;
     }
     append(c: string) {
-        throw new Error("needs implementation");
+        this.name += this.delimiter + c;
+        this.length += 1;
     }
     remove(i: number) {
-        throw new Error("needs implementation");
+        this.assertInBounds(i);
+        let components: string[] = this.asStringArray();
+        components.splice(i, 1);
+        this.name = components.join(this.delimiter);
+        this.length -= 1;
     }
 }
