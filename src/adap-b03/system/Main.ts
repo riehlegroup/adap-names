@@ -1,26 +1,24 @@
-export class Main {
+export abstract class Main {
 
     public run(args: string[]): void {
         this.parseArgs(args);
-        this.initialize();
+        this.startUp();
         this.execute();
-        this.finalize();
+        this.shutDown();
     };
 
     protected parseArgs(args: string[]): void {
-        // do nothing
+        // do nothing (expect subclass to override)
     }
 
-    protected initialize(): void {
-        // do nothing
+    protected startUp(): void {
+        // do nothing (expect subclass to override)
     }
 
-    protected execute(): void {
-        // do nothing
-    }
+    protected abstract execute(): void;
 
-    protected finalize(): void {
-        // do nothing
+    protected shutDown(): void {
+        // do nothing (expect subclass to override)
     }
 
 }
