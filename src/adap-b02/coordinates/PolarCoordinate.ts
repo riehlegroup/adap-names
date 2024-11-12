@@ -47,7 +47,7 @@ export class PolarCoordinate implements Coordinate {
     }
 
     public clone(): Coordinate {
-        return new PolarCoordinate(this.getX(), this.getY());
+        return new PolarCoordinate(this.doGetR(), this.doGetPhi());
     }
 
     public reset(): void {

@@ -17,6 +17,7 @@
   "author": "Dirk Riehle",
   "license": "",
   "devDependencies": {
+    "@types/node": "^22.9.0",
     "typescript": "^5.5.4"
   },
   "dependencies": {
