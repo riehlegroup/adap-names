@@ -7,7 +7,7 @@ export class Coordinate {
         this.initialize(x, y);
     }
 
-    public static getOrigin(): Coordinate {
+    public static createOrigin(): Coordinate {
         return new Coordinate(0, 0);
     }
 
