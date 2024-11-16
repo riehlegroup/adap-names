@@ -1,3 +1,8 @@
 export interface Cloneable {
-    clone(): Object;
+
+    /**
+     * Returns shallow copy (clone) of this object
+     */
+    clone(): Object; // @todo Use object
+    
 }

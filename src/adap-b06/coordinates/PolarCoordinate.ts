@@ -12,11 +12,7 @@ export class PolarCoordinate extends AbstractCoordinate {
         this.initialize(r, phi);
     }
 
-    public static getOrigin(): Coordinate {
-        return new PolarCoordinate(0, 0);
-    }
-
-    public initialize(r?: number, phi?: number): void {
+    protected initialize(r?: number, phi?: number): void {
         if (r != undefined) {
             this.setR(r);
         }
@@ -26,44 +22,46 @@ export class PolarCoordinate extends AbstractCoordinate {
         }
     }
 
-    public reset(): void {
-        this.initialize(0, 0);
+    public getOrigin(): Coordinate {
+        return new PolarCoordinate(0, 0);
     }
     
     protected doGetX(): number {
         return this.doGetR() * Math.cos(this.doGetPhi());
     }
     
-    protected doSetX(x: number): void {
+    protected doSetX(x: number): Coordinate {
         let y: number = this.doGetR() * Math.cos(this.doGetPhi());
-        this.doSetR(Math.hypot(x, y));
-        this.doSetPhi(Math.atan2(y, x));
+        let newR: number = Math.hypot(x, y);
+        let newPhi: number = Math.atan2(y, x);
+        return new PolarCoordinate(newR, newPhi);
     }
     
     protected doGetY(): number {
         return this.doGetR() * Math.sin(this.doGetPhi());
     }
 
-    protected doSetY(y: number): void {
+    protected doSetY(y: number): Coordinate {
         let x: number = this.doGetR() * Math.sin(this.doGetPhi());
-        this.doSetR(Math.hypot(x, y));
-        this.doSetPhi(Math.atan2(y, x));       
+        let newR: number = Math.hypot(x, y);
+        let newPhi: number = Math.atan2(y, x);
+        return new PolarCoordinate(newR, newPhi);    
     }
 
     protected doGetR(): number {
         return this.r;
     }
 
-    protected doSetR(r: number): void {
-        this.r = r;   
+    protected doSetR(r: number): Coordinate {
+        return new PolarCoordinate(r, this.phi);
     }
 
     protected doGetPhi(): number {
         return this.phi;
     }
    
-    protected doSetPhi(phi: number): void {
-        this.phi = phi;   
+    protected doSetPhi(phi: number): Coordinate {
+        return new PolarCoordinate(this.r, phi);   
     }
 
 }

@@ -12,11 +12,7 @@ export class CartesianCoordinate extends AbstractCoordinate {
         this.initialize(x, y);
     }
 
-    public static getOrigin(): Coordinate {
-        return new CartesianCoordinate(0, 0);
-    }
-
-    public initialize(x?: number, y?: number): void {
+    protected initialize(x?: number, y?: number): void {
         if (x != undefined) {
             this.doSetX(x);
         }
@@ -26,47 +22,46 @@ export class CartesianCoordinate extends AbstractCoordinate {
         }
     }
 
-    public reset(): void {
-        this.initialize(0, 0);
+    public getOrigin(): Coordinate {
+        return new CartesianCoordinate(0, 0);
     }
    
     protected doGetX(): number {
         return this.x;
     }
     
-    protected doSetX(x: number): void {
-        this.x = x;
+    protected doSetX(x: number): Coordinate {
+        return new CartesianCoordinate(x, this.y);
     }
     
     public doGetY(): number {
         return this.y;
     }
 
-    protected doSetY(y: number): void {
-        this.y = y;
+    protected doSetY(y: number): Coordinate {
+        return new CartesianCoordinate(this.x, y);
     }
 
     protected doGetR(): number {
         return Math.hypot(this.doGetX(), this.doGetY());
     }
 
-    protected doSetR(r: number): void {
+    protected doSetR(r: number): Coordinate {
         let phi: number = Math.atan2(this.doGetY(), this.doGetX());
-        this.doSetX(r * Math.cos(phi));
-        this.doSetY(r * Math.sin(phi));       
+        let newX: number = r * Math.cos(phi);
+        let newY: number = r * Math.sin(phi);
+        return new CartesianCoordinate(newX, newY);
     }
 
     protected doGetPhi(): number {
         return Math.atan2(this.doGetY(), this.doGetX());
     }
 
-    protected doSetPhi(phi: number): void {
+    protected doSetPhi(phi: number): Coordinate {
         let r: number = Math.hypot(this.doGetX(), this.doGetY());
-        let x: number = r * Math.cos(phi);
-        let y: number = r * Math.sin(phi);
-
-        this.doSetX(x);
-        this.doSetY(y);       
+        let newX: number = r * Math.cos(phi);
+        let newY: number = r * Math.sin(phi);
+        return new CartesianCoordinate(newX, newY);
     }
   
 }
