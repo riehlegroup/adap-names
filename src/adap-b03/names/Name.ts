@@ -21,32 +21,50 @@ export interface Name extends Printable, Cloneable, Equality {
 
     /**
      * Returns true, if number of components == 0; else false
+     * @methodtype boolean-query-method
      */
     isEmpty(): boolean;
 
     /** 
      * Returns delimiter character used by Name instances
+     * @methodtype get-method
      */
     getDelimiterCharacter(): string;
 
     /** 
      * Returns number of components in Name instance
+     * @methodtype get-method
      */
     getNoComponents(): number;
 
+     /**
+     * @methodtype get-method
+     */
     getComponent(i: number): string;
 
-    /** Expects that new Name component c is properly masked */
+    /** Expects that new Name component c is properly masked 
+     * @methodtype set-method
+    */
     setComponent(i: number, c: string): void;
 
-    /** Expects that new Name component c is properly masked */
+    /** Expects that new Name component c is properly masked 
+     * @methodtype command-method
+    */
     insert(i: number, c: string): void;
 
-    /** Expects that new Name component c is properly masked */
+    /** Expects that new Name component c is properly masked 
+     * @methodtype command-method
+    */
     append(c: string): void;
 
+    /** 
+     * @methodtype command-method
+     */
     remove(i: number): void;
     
+    /** 
+     * @methodtype command-method
+     */
     concat(other: Name): void;
     
 }

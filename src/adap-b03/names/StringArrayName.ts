@@ -6,28 +6,50 @@ export class StringArrayName extends AbstractName {
     protected components: string[] = [];
 
     constructor(other: string[], delimiter?: string) {
-        super();
-        throw new Error("needs implementation");
+        super(delimiter);
+        this.components = other.map(s => this.notEscaped(s, this.delimiter));
+    }
+
+    asDataString(): string {
+        return this.components.map(s => this.escaped(s, this.delimiter)).join(this.delimiter);
+    }
+    asString(delimiter: string = this.delimiter): string {
+        return this.components.join(delimiter);
     }
 
     getNoComponents(): number {
-        throw new Error("needs implementation");
+        return this.components.length;
     }
 
     getComponent(i: number): string {
-        throw new Error("needs implementation");
+        if (i < 0 || i >= this.components.length) {
+            throw new Error("Index out of Bounds");
+        }
+        return this.components[i];
     }
+
     setComponent(i: number, c: string) {
-        throw new Error("needs implementation");
+        if (i < 0 || i >= this.components.length) {
+            throw new Error("Index out of Bounds");
+        }
+        this.components[i] = c;
     }
 
     insert(i: number, c: string) {
-        throw new Error("needs implementation");
+        if (i < 0 || i > this.components.length) {
+            throw new Error("Index out of Bounds");
+        }
+        this.components.splice(i, 0, c);
     }
+
     append(c: string) {
-        throw new Error("needs implementation");
+        this.components.push(c);
     }
+
     remove(i: number) {
-        throw new Error("needs implementation");
+        if (i < 0 || i >= this.components.length) {
+            throw new Error("Index out of Bounds");
+        }
+        this.components.splice(i, 1);
     }
 }
