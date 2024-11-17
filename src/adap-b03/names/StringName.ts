@@ -79,4 +79,8 @@ export class StringName extends AbstractName {
     this.name = arrayOfComponents.join(this.delimiter);
     this.length--;
   }
+
+  cloneSubclass(): Name {
+    return Object.assign(new StringName(""), this);
+}
 }

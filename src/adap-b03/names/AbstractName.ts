@@ -1,4 +1,6 @@
 import { Name, DEFAULT_DELIMITER, ESCAPE_CHARACTER } from "./Name";
+import { StringArrayName } from "./StringArrayName";
+import { StringName } from "./StringName";
 
 export abstract class AbstractName implements Name {
   protected delimiter: string = DEFAULT_DELIMITER;
@@ -58,7 +60,7 @@ export abstract class AbstractName implements Name {
 
   /** @methodtype command-method */
   public clone(): Name {
-    return this.clone();
+      return this.cloneSubclass();
   }
 
   /** @methodtype boolean query-method */
@@ -88,6 +90,8 @@ export abstract class AbstractName implements Name {
 
   /** @methodtype command-method */
   abstract remove(i: number): void;
+
+  abstract cloneSubclass(): Name;
 
   /** @methodtype command-method */
   public concat(other: Name): void {
