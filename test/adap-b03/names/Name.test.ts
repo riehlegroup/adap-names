@@ -1,8 +1,9 @@
 import { describe, it, expect } from "vitest";
 
-import { Name } from "../../../src/adap-b02/names/Name";
-import { StringName } from "../../../src/adap-b02/names/StringName";
-import { StringArrayName } from "../../../src/adap-b02/names/StringArrayName";
+import { Name } from "../../../src/adap-b03/names/Name";
+import { StringName } from "../../../src/adap-b03/names/StringName";
+import { AbstractName } from "../../../src/adap-b03/names/AbstractName";
+import { StringArrayName } from "../../../src/adap-b03/names/StringArrayName";
 
 describe("Basic StringName function tests", () => {
   it("test insert", () => {

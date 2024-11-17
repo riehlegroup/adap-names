@@ -8,27 +8,54 @@ export class StringName extends AbstractName {
 
     constructor(other: string, delimiter?: string) {
         super();
-        throw new Error("needs implementation");
+        this.name = other;
+        this.length = this.name.length
     }
 
     getNoComponents(): number {
-        throw new Error("needs implementation");
+        const array = this.splitByDelimiter(this.name,this.delimiter);
+       return array.length;
     }
 
     getComponent(i: number): string {
-        throw new Error("needs implementation");
+        const array = this.splitByDelimiter(this.name,this.delimiter);
+        return array[i];
     }
     setComponent(i: number, c: string) {
-        throw new Error("needs implementation");
+        let array = this.splitByDelimiter(this.name,this.delimiter);
+        array[i] = c;
+        this.name = this.arrayToString(array);
     }
 
     insert(i: number, c: string) {
-        throw new Error("needs implementation");
+        let array = this.splitByDelimiter(this.name,this.delimiter); 
+        array.splice(i,0,c);
+        this.name = this.arrayToString(array);
     }
     append(c: string) {
-        throw new Error("needs implementation");
+        this.name += (this.delimiter + c);
     }
     remove(i: number) {
-        throw new Error("needs implementation");
+        let array = this.splitByDelimiter(this.name,this.delimiter);
+        array.splice(i,1)
+        this.name = this.arrayToString(array);
+    }
+
+    private splitByDelimiter(input:string,delimiter:string):string[]{
+        return input.split(delimiter)
+    }
+    private arrayToString(array:string[],delimiter: string = this.delimiter): string {
+        let name: string = ''
+
+        array.forEach(element => {
+            if (name.length == 0){
+                name += element
+            }else{
+            name += delimiter
+            name += element
+            }
+        });
+
+        return name
     }
 }
