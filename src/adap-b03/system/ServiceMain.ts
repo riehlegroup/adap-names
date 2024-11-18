@@ -1,26 +1,22 @@
 import { ModelMain } from "./ModelMain";
 
-export abstract class ServiceMain extends ModelMain {
+export class ServiceMain extends ModelMain {
 
-    protected startUp(): void {
-        super.startUp();
-        this.startService();
+    protected initialize(): void {
+        super.initialize();
+        this.initService();
     }
 
-    protected startService(): void {
+    protected initService(): void {
         // do something
     }
 
-    protected execute(): void {
-        // start main event loop
+    protected finalize(): void {
+        this.finiService();        
+        super.finalize();
     }
 
-    protected shutDown(): void {
-        this.closeService();        
-        super.shutDown();
-    }
-
-    protected closeService(): void {
+    protected finiService(): void {
         // do something
     }
 

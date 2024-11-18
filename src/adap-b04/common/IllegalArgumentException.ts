@@ -7,11 +7,13 @@ import { Exception } from "./Exception";
 export class IllegalArgumentException extends Exception {
 
     static assertIsNotNullOrUndefined(o: Object | null, exMsg: string = "null or undefined"): void {
-        this.assertCondition(this.isNullOrUndefined(o), exMsg);
+        this.assertCondition(!this.isNullOrUndefined(o), exMsg);
     }
     
     static assertCondition(cond: boolean, exMsg: string): void {
-        if (!cond) throw new IllegalArgumentException(exMsg);
+        if (!cond) {
+            throw new IllegalArgumentException(exMsg);
+        }
     }
     
     constructor(m: string) {

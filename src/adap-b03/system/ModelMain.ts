@@ -1,23 +1,23 @@
 import { Main } from "./Main";
 
-export abstract class ModelMain extends Main {
+export class ModelMain extends Main {
 
-    protected startUp(): void {
-        super.startUp();
-        this.loadModel();
+    protected initialize(): void {
+        super.initialize();
+        this.initModel();
     }
 
-    protected loadModel(): void {
-        // do nothing (expect subclass to override)
+    protected initModel(): void {
+        // do something
     }
 
-    protected shutDown(): void {
-        this.saveModel();        
-        super.shutDown();
+    protected finalize(): void {
+        this.finiModel();        
+        super.finalize();
     }
 
-    protected saveModel(): void {
-        // do nothing (expect subclass to override)
+    protected finiModel(): void {
+        // do something
     }
 
 }

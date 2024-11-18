@@ -1,17 +1,43 @@
+export const DEFAULT_DELIMITER: string = '.';
+export const ESCAPE_CHARACTER = '\\';
+
+/**
+ * A name is a sequence of string components separated by a delimiter character.
+ * Special characters within the string may need masking, if they are to appear verbatim.
+ * There are only two special characters, the delimiter character and the escape character.
+ * The escape character can't be set, the delimiter character can.
+ * 
+ * Homogenous name examples
+ * 
+ * "oss.cs.fau.de" is a name with four name components and the delimiter character '.'.
+ * "///" is a name with four empty components and the delimiter character '/'.
+ * "Oh\.\.\." is a name with one component, if the delimiter character is '.'.
+ */
 export class Name {
 
-    public readonly DEFAULT_DELIMITER: string = '.';
-    private readonly ESCAPE_CHARACTER = '\\';
-
+    private delimiter: string = DEFAULT_DELIMITER;
     private components: string[] = [];
-    private delimiter: string = this.DEFAULT_DELIMITER;
 
+    /** Expects that all Name components are properly masked */
     constructor(other: string[], delimiter?: string) {
         throw new Error("needs implementation");
     }
 
-    /** Returns human-readable representation of Name instance */
-    public asNameString(delimiter: string = this.delimiter): string {
+    /**
+     * Returns a human-readable representation of the Name instance using user-set control characters
+     * Control characters are not escaped (creating a human-readable string)
+     * Users can vary the delimiter character to be used
+     */
+    public asString(delimiter: string = this.delimiter): string {
+        throw new Error("needs implementation");
+    }
+
+    /** 
+     * Returns a machine-readable representation of Name instance using default control characters
+     * Machine-readable means that from a data string, a Name can be parsed back in
+     * The control characters in the data string are the default characters
+     */
+    public asDataString(): string {
         throw new Error("needs implementation");
     }
 
@@ -19,6 +45,7 @@ export class Name {
         throw new Error("needs implementation");
     }
 
+    /** Expects that new Name component c is properly masked */
     public setComponent(i: number, c: string): void {
         throw new Error("needs implementation");
     }
@@ -28,10 +55,12 @@ export class Name {
         throw new Error("needs implementation");
     }
 
+    /** Expects that new Name component c is properly masked */
     public insert(i: number, c: string): void {
         throw new Error("needs implementation");
     }
 
+    /** Expects that new Name component c is properly masked */
     public append(c: string): void {
         throw new Error("needs implementation");
     }
