@@ -1,5 +1,5 @@
-import { Name } from "../names-solution/Name";
-import { StringName } from "../names-solution/StringName";
+import { Name } from "../names/Name";
+import { StringName } from "../names/StringName";
 import { Directory } from "./Directory";
 
 export class RootNode extends Directory {
