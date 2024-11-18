@@ -1,6 +1,4 @@
 import { Name, DEFAULT_DELIMITER, ESCAPE_CHARACTER } from "./Name";
-import { StringArrayName } from "./StringArrayName";
-import { StringName } from "./StringName";
 
 export abstract class AbstractName implements Name {
   protected delimiter: string = DEFAULT_DELIMITER;
