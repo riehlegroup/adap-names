@@ -6,8 +6,8 @@ import { Exception } from "./Exception";
  */
 export class MethodFailureException extends Exception {
 
-    static assertNotNullOrUndefined(o: Object | null, exMsg: string = "null or undefined"): void {
-        this.assertCondition(this.isNullOrUndefined(o), exMsg);
+    static assertIsNotNullOrUndefined(o: Object | null, exMsg: string = "null or undefined"): void {
+        this.assertCondition(!this.isNullOrUndefined(o), exMsg);
     }
     
     static assertCondition(cond: boolean, exMsg: string): void {

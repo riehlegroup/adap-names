@@ -11,9 +11,7 @@ export class IllegalArgumentException extends Exception {
     }
     
     static assertCondition(cond: boolean, exMsg: string): void {
-        if (!cond) {
-            throw new IllegalArgumentException(exMsg);
-        }
+        if (!cond) throw new IllegalArgumentException(exMsg);
     }
     
     constructor(m: string) {
