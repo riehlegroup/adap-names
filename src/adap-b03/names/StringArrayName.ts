@@ -15,27 +15,31 @@ export class StringArrayName extends AbstractName {
         return this.components.length;
     }
 
-    getComponent(i: number): string {
+    public getComponent(i: number): string {
         this.assertInBounds(i);
         return this.components[i];
     }
 
-    setComponent(i: number, c: string) {
+    public setComponent(i: number, c: string) {
         this.assertInBounds(i);
         this.components[i] = c;
     }
 
-    insert(i: number, c: string) {
+    public insert(i: number, c: string) {
         this.assertInBounds(i);
         this.components.splice(i, 0, c);
     }
 
-    append(c: string) {
+    public append(c: string) {
         this.components.push(c);
     }
 
-    remove(i: number) {
+    public remove(i: number) {
         this.assertInBounds(i);
         this.components.splice(i, 1)
+    }
+
+    public concat(other: Name): void {
+        throw new Error("needs implementation");
     }
 }

@@ -5,7 +5,7 @@ import { AbstractName } from "./AbstractName";
 export class StringName extends AbstractName {
 
     protected name: string = "";
-    protected length: number = 0;
+    protected noComponents: number = 0;
 
     constructor(other: string, delimiter?: string) {
         super(delimiter);
@@ -26,37 +26,77 @@ export class StringName extends AbstractName {
     let reg: RegExp = this.getDelimRegExp();
     return this.name.split(reg);
   }
-    getNoComponents(): number {
+    public clone(): Name {
+        throw new Error("needs implementation");
+    }
+
+    public asString(delimiter: string = this.delimiter): string {
+        throw new Error("needs implementation");
+    }
+
+    public toString(): string {
+        throw new Error("needs implementation");
+    }
+
+    public asDataString(): string {
+        throw new Error("needs implementation");
+    }
+
+    public isEqual(other: Name): boolean {
+        throw new Error("needs implementation");
+    }
+
+    public getHashCode(): number {
+        throw new Error("needs implementation");
+    }
+
+    public isEmpty(): boolean {
+        throw new Error("needs implementation");
+    }
+
+    public getDelimiterCharacter(): string {
+        throw new Error("needs implementation");
+    }
+
+    public getNoComponents(): number {
         return this.length;
     }
 
-    getComponent(i: number): string {
+    public getComponent(i: number): string {
         this.assertInBounds(i);
         return this.asStringArray()[i];
     }
-    setComponent(i: number, c: string) {
+
+    public setComponent(i: number, c: string) {
         this.assertInBounds(i);
         let components: string[] = this.asStringArray();
         components[i] = c;
         this.name = components.join(this.delimiter);
     }
 
-    insert(i: number, c: string) {
+    public insert(i: number, c: string) {
         this.assertInBounds(i);
         let components: string[] = this.asStringArray();
         components.splice(i, 0, c);
         this.name = components.join(this.delimiter);
         this.length += 1;
     }
-    append(c: string) {
+
+    public append(c: string) {
         this.name += this.delimiter + c;
         this.length += 1;
     }
-    remove(i: number) {
+
+    public remove(i: number) {
         this.assertInBounds(i);
         let components: string[] = this.asStringArray();
         components.splice(i, 1);
         this.name = components.join(this.delimiter);
         this.length -= 1;
     }
+
+    public concat(other: Name): void {
+        throw new Error("needs implementation");
+    }
+
 }
