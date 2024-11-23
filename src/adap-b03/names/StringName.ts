@@ -99,12 +99,9 @@ export class StringName extends AbstractName {
         // Add the final component
         components.push(current);
         return components;
-}
-    public clone(): Name {
-        throw new Error("needs implementation");
     }
 
-    public asString(delimiter: string = this.delimiter): string {
+    public clone(): Name {
         throw new Error("needs implementation");
     }
 
@@ -112,9 +109,6 @@ export class StringName extends AbstractName {
         throw new Error("needs implementation");
     }
 
-    public asDataString(): string {
-        throw new Error("needs implementation");
-    }
 
     public isEqual(other: Name): boolean {
         throw new Error("needs implementation");
@@ -132,7 +126,7 @@ export class StringName extends AbstractName {
         throw new Error("needs implementation");
     }
 
-    
+
 
     public concat(other: Name): void {
         throw new Error("needs implementation");

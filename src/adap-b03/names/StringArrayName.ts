@@ -57,17 +57,12 @@ export class StringArrayName extends AbstractName {
         throw new Error("needs implementation");
     }
 
-    public asString(delimiter: string = this.delimiter): string {
-        throw new Error("needs implementation");
-    }
+    
 
     public toString(): string {
         throw new Error("needs implementation");
     }
 
-    public asDataString(): string {
-        throw new Error("needs implementation");
-    }
 
     public isEqual(other: Name): boolean {
         throw new Error("needs implementation");
