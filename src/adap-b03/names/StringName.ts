@@ -5,7 +5,7 @@ import { AbstractName } from "./AbstractName";
 export class StringName extends AbstractName {
 
     protected name: string = "";
-    protected noComponents: number = 0;
+    protected length: number = 0;
 
     constructor(other: string, delimiter?: string) {
         super(delimiter);
