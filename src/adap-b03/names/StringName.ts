@@ -1,10 +1,11 @@
-import { Name, DEFAULT_DELIMITER, ESCAPE_CHARACTER } from "./Name";
+import { DEFAULT_DELIMITER, ESCAPE_CHARACTER } from "../common/Printable";
+import { Name } from "./Name";
 import { AbstractName } from "./AbstractName";
 
 export class StringName extends AbstractName {
 
     protected name: string = "";
-    protected length: number = 0;
+    protected noComponents: number = 0;
 
     constructor(other: string, delimiter?: string) {
         super(delimiter);
@@ -19,6 +20,7 @@ export class StringName extends AbstractName {
     asString(delimiter: string = this.delimiter): string {
         return this.splitComponents(this.name).map(s => this.notEscaped(s, this.delimiter)).join(delimiter);
     }
+
 
     getNoComponents(): number {
         return this.length;
@@ -98,4 +100,43 @@ export class StringName extends AbstractName {
         components.push(current);
         return components;
 }
+    public clone(): Name {
+        throw new Error("needs implementation");
+    }
+
+    public asString(delimiter: string = this.delimiter): string {
+        throw new Error("needs implementation");
+    }
+
+    public toString(): string {
+        throw new Error("needs implementation");
+    }
+
+    public asDataString(): string {
+        throw new Error("needs implementation");
+    }
+
+    public isEqual(other: Name): boolean {
+        throw new Error("needs implementation");
+    }
+
+    public getHashCode(): number {
+        throw new Error("needs implementation");
+    }
+
+    public isEmpty(): boolean {
+        throw new Error("needs implementation");
+    }
+
+    public getDelimiterCharacter(): string {
+        throw new Error("needs implementation");
+    }
+
+    
+
+    public concat(other: Name): void {
+        throw new Error("needs implementation");
+    }
+
+
 }

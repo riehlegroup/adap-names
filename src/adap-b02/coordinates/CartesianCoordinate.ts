@@ -38,16 +38,12 @@ export class CartesianCoordinate implements Coordinate {
     public getHashCode(): number {
         let hashCode: number = 0;
         const s: string = this.asDataString();
-        for (let i = 0; i < s.length; i++) {
-            let c = s.charCodeAt(i);
+        for (let i: number = 0; i < s.length; i++) {
+            let c: number = s.charCodeAt(i);
             hashCode = (hashCode << 5) - hashCode + c;
             hashCode |= 0;
         }
         return hashCode;
-    }
-
-    public clone(): Coordinate {
-        return new CartesianCoordinate(this.doGetX(), this.doGetY());
     }
 
     public reset(): void {

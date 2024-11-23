@@ -1,9 +1,10 @@
-import { Name, DEFAULT_DELIMITER, ESCAPE_CHARACTER } from "./Name";
+import { DEFAULT_DELIMITER, ESCAPE_CHARACTER } from "../common/Printable";
+import { Name } from "./Name";
 
 export class StringArrayName implements Name {
 
-    protected components: string[] = [];
     protected delimiter: string = DEFAULT_DELIMITER;
+    protected components: string[] = [];
 
     /** @methodtype initialization-method */
     constructor(other: string[], delimiter?: string) {
@@ -29,6 +30,7 @@ export class StringArrayName implements Name {
             .join(DEFAULT_DELIMITER);
     }
 
+
     /** @methodtype boolean-query-method*/
     public isEmpty(): boolean {
         return this.components.length === 0;
@@ -37,6 +39,13 @@ export class StringArrayName implements Name {
     /** @methodtype get-method */
     public getDelimiterCharacter(): string {
         return this.delimiter;
+=======
+    public getDelimiterCharacter(): string {
+        throw new Error("needs implementation");
+    }
+
+    public isEmpty(): boolean {
+        throw new Error("needs implementation");
     }
 
     /** Returns number of components in Name instance

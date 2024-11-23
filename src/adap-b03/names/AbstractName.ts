@@ -1,7 +1,9 @@
+
 import { Name, DEFAULT_DELIMITER, ESCAPE_CHARACTER } from "./Name";
 import { Cloneable } from "../common/Cloneable";
 import { Equality } from "../common/Equality";
 import { Printable } from "../common/Printable";
+
 
 export abstract class AbstractName implements Name {
 
@@ -12,6 +14,10 @@ export abstract class AbstractName implements Name {
     }
 
     abstract asString(delimiter: string): string;
+    public clone(): Name {
+        throw new Error("needs implementation");
+    }
+
 
     public toString(): string {
         return this.asDataString()
