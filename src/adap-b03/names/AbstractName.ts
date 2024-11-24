@@ -11,25 +11,27 @@ export abstract class AbstractName implements Name {
     }
 
     public asString(delimiter: string = this.delimiter): string {
+        console.log("asString called")
         let str: string = "";
         let len: number = this.getNoComponents();
-        for (let i = 0; i > len; i++) {
+        for (let i = 0; i < len; i++) {
             let comp: string = this.getComponent(i);
             comp = comp.replaceAll(ESCAPE_CHARACTER, "");
             str += comp;
-            if (i < len) {
+            if (i < len - 1) {
                 str += delimiter;
             }
         }
+        console.log("string: " + str)
         return str;
     }
 
     public toString(): string {
         let str: string = "";
         let len: number = this.getNoComponents();
-        for (let i = 0; i > len; i++) {
+        for (let i = 0; i < len; i++) {
             str += this.getComponent(i);
-            if (i < len) {
+            if (i < len - 1) {
                 str += this.delimiter;
             }
         }
@@ -39,14 +41,14 @@ export abstract class AbstractName implements Name {
     public asDataString(): string {
         let str: string = "";
         let len: number = this.getNoComponents();
-        for (let i = 0; i > len; i++) {
+        for (let i = 0; i < len; i++) {
             let comp: string = this.getComponent(i);
             if (this.delimiter != DEFAULT_DELIMITER) {
                 comp = comp.replaceAll(DEFAULT_DELIMITER, ESCAPE_CHARACTER + DEFAULT_DELIMITER);
                 comp = comp.replaceAll(ESCAPE_CHARACTER + this.delimiter, this.delimiter);
             }
             str += comp;
-            if (i < len) {
+            if (i < len - 1) {
                 str += DEFAULT_DELIMITER;
             }
         }

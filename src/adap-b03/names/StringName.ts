@@ -26,37 +26,6 @@ export class StringName extends AbstractName {
     let reg: RegExp = this.getDelimRegExp();
     return this.name.split(reg);
   }
-    public clone(): Name {
-        throw new Error("needs implementation");
-    }
-
-    public asString(delimiter: string = this.delimiter): string {
-        throw new Error("needs implementation");
-    }
-
-    public toString(): string {
-        throw new Error("needs implementation");
-    }
-
-    public asDataString(): string {
-        throw new Error("needs implementation");
-    }
-
-    public isEqual(other: Name): boolean {
-        throw new Error("needs implementation");
-    }
-
-    public getHashCode(): number {
-        throw new Error("needs implementation");
-    }
-
-    public isEmpty(): boolean {
-        throw new Error("needs implementation");
-    }
-
-    public getDelimiterCharacter(): string {
-        throw new Error("needs implementation");
-    }
 
     public getNoComponents(): number {
         return this.length;
@@ -94,9 +63,4 @@ export class StringName extends AbstractName {
         this.name = components.join(this.delimiter);
         this.length -= 1;
     }
-
-    public concat(other: Name): void {
-        throw new Error("needs implementation");
-    }
-
 }

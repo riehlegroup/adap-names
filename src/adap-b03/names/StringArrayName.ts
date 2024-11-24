@@ -38,8 +38,4 @@ export class StringArrayName extends AbstractName {
         this.assertInBounds(i);
         this.components.splice(i, 1)
     }
-
-    public concat(other: Name): void {
-        throw new Error("needs implementation");
-    }
 }

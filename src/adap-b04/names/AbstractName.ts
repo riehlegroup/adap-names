@@ -6,39 +6,80 @@ export abstract class AbstractName implements Name {
     protected delimiter: string = DEFAULT_DELIMITER;
 
     constructor(delimiter: string = DEFAULT_DELIMITER) {
-        throw new Error("needs implementation");
+        this.delimiter = delimiter;
     }
 
     public clone(): Name {
-        throw new Error("needs implementation");
+        return { ...this };
     }
 
     public asString(delimiter: string = this.delimiter): string {
-        throw new Error("needs implementation");
+        let str: string = "";
+        let len: number = this.getNoComponents();
+        for (let i = 0; i > len; i++) {
+            let comp: string = this.getComponent(i);
+            comp = comp.replaceAll(ESCAPE_CHARACTER, "");
+            str += comp;
+            if (i < len) {
+                str += delimiter;
+            }
+        }
+        return str;
     }
 
     public toString(): string {
-        throw new Error("needs implementation");
+        let str: string = "";
+        let len: number = this.getNoComponents();
+        for (let i = 0; i > len; i++) {
+            str += this.getComponent(i);
+            if (i < len) {
+                str += this.delimiter;
+            }
+        }
+        return str;
     }
 
     public asDataString(): string {
-        throw new Error("needs implementation");
+        let str: string = "";
+        let len: number = this.getNoComponents();
+        for (let i = 0; i > len; i++) {
+            let comp: string = this.getComponent(i);
+            if (this.delimiter != DEFAULT_DELIMITER) {
+                comp = comp.replaceAll(DEFAULT_DELIMITER, ESCAPE_CHARACTER + DEFAULT_DELIMITER);
+                comp = comp.replaceAll(ESCAPE_CHARACTER + this.delimiter, this.delimiter);
+            }
+            str += comp;
+            if (i < len) {
+                str += DEFAULT_DELIMITER;
+            }
+        }
+        return str;
     }
 
     public isEqual(other: Name): boolean {
-        throw new Error("needs implementation");
+        return ((this.toString() == other.toString()) &&
+            (this.getDelimiterCharacter() == other.getDelimiterCharacter()) &&
+            (this.getNoComponents() == other.getNoComponents())
+        );
     }
 
     public getHashCode(): number {
-        throw new Error("needs implementation");
+        let hashCode: number = 0;
+        const s: string = this.toString() + this.getDelimiterCharacter() + String(this.getNoComponents());
+        for (let i = 0; i < s.length; i++) {
+            let c = s.charCodeAt(i);
+            hashCode = (hashCode << 5) - hashCode + c;
+            hashCode |= 0;
+        }
+        return hashCode;
     }
 
     public isEmpty(): boolean {
-        throw new Error("needs implementation");
+        return this.getNoComponents() == 0;
     }
 
     public getDelimiterCharacter(): string {
-        throw new Error("needs implementation");
+        return this.delimiter;
     }
 
     abstract getNoComponents(): number;
@@ -51,7 +92,12 @@ export abstract class AbstractName implements Name {
     abstract remove(i: number): void;
 
     public concat(other: Name): void {
-        throw new Error("needs implementation");
+        if (other.getDelimiterCharacter() != this.getDelimiterCharacter()) {
+            throw new Error("Cannot concatenate names with different delimiters")
+        }
+        for (let i = 0; i < other.getNoComponents(); i++) {
+            this.append(other.getComponent(i));
+        }
     }
-
 }
+
