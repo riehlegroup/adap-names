@@ -8,68 +8,78 @@ export class StringName extends AbstractName {
     protected noComponents: number = 0;
 
     constructor(other: string, delimiter?: string) {
-        super();
-        throw new Error("needs implementation");
+        super(delimiter);
+        this.name = other;
+        this.noComponents = this.asStringArray().length;
     }
 
-    public clone(): Name {
-        throw new Error("needs implementation");
+    private getDelimRegExp(delimiter: string = this.delimiter): RegExp {
+        // Escape delimiter if it's a special regex character
+        let escapedDelimiter: string = delimiter.replaceAll(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+        let escapedEscapeCharacter: string = ESCAPE_CHARACTER.replaceAll(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+
+        // RegExp to find all unescaped delimiter chars
+        return new RegExp(`(?<!${escapedEscapeCharacter})${escapedDelimiter}`, 'g');
     }
 
-    public asString(delimiter: string = this.delimiter): string {
-        throw new Error("needs implementation");
-    }
-
-    public toString(): string {
-        throw new Error("needs implementation");
-    }
-
-    public asDataString(): string {
-        throw new Error("needs implementation");
-    }
-
-    public isEqual(other: Name): boolean {
-        throw new Error("needs implementation");
-    }
-
-    public getHashCode(): number {
-        throw new Error("needs implementation");
-    }
-
-    public isEmpty(): boolean {
-        throw new Error("needs implementation");
-    }
-
-    public getDelimiterCharacter(): string {
-        throw new Error("needs implementation");
+    private asStringArray(): string[] {
+        let reg: RegExp = this.getDelimRegExp();
+        return this.name.split(reg);
     }
 
     public getNoComponents(): number {
-        throw new Error("needs implementation");
+        let n: number = this.noComponents;
+
+        this.assertReturnNotNullOrUndefined(n);
+        return n;
     }
 
     public getComponent(i: number): string {
-        throw new Error("needs implementation");
+        this.assertIndexInBounds(i);
+
+        let c: string = this.asStringArray()[i];
+
+        this.assertReturnNotNullOrUndefined(c, "component");
+        return c;
     }
 
     public setComponent(i: number, c: string) {
-        throw new Error("needs implementation");
+        this.assertIndexInBounds(i);
+        this.assertIsValidComponent(c);
+
+        let components: string[] = this.asStringArray();
+        components[i] = c;
+        this.name = components.join(this.delimiter);
+
+        this.assertComponentEquals(i, c);
+        this.assertClassInvariants();
     }
 
     public insert(i: number, c: string) {
-        throw new Error("needs implementation");
+        this.assertIndexInBounds(i);
+        this.assertIsValidComponent(c);
+
+        let components: string[] = this.asStringArray();
+        components.splice(i, 0, c);
+        this.name = components.join(this.delimiter);
+        let oldNoComponents: number = this.getNoComponents();
+        this.noComponents = oldNoComponents + 1;
+
+        this.assertComponentInserted(i, c, oldNoComponents);
+        this.assertClassInvariants();
     }
 
     public append(c: string) {
-        throw new Error("needs implementation");
+        this.name += this.delimiter + c;
+        this.noComponents += 1;
     }
 
     public remove(i: number) {
-        throw new Error("needs implementation");
-    }
-
-    public concat(other: Name): void {
-        throw new Error("needs implementation");
+        // this.assertInBounds(i);
+        let components: string[] = this.asStringArray();
+        components.splice(i, 1);
+        this.name = components.join(this.delimiter);
+        this.noComponents -= 1;
     }
 
 }

@@ -13,19 +13,19 @@ export class StringName extends AbstractName {
         this.length = this.asStringArray().length;
     }
 
-  private getDelimRegExp(delimiter: string = this.delimiter): RegExp {
-    // Escape delimiter if it's a special regex character
-    let escapedDelimiter: string = delimiter.replaceAll(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
-    let escapedEscapeCharacter: string = ESCAPE_CHARACTER.replaceAll(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&'); // I actually feel stupid doing this
+    private getDelimRegExp(delimiter: string = this.delimiter): RegExp {
+        // Escape delimiter if it's a special regex character
+        let escapedDelimiter: string = delimiter.replaceAll(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+        let escapedEscapeCharacter: string = ESCAPE_CHARACTER.replaceAll(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
 
-    // RegExp to find all unescaped delimiter chars
-    return new RegExp(`(?<!${escapedEscapeCharacter})${escapedDelimiter}`, 'g');
-  }
+        // RegExp to find all unescaped delimiter chars
+        return new RegExp(`(?<!${escapedEscapeCharacter})${escapedDelimiter}`, 'g');
+    }
 
-  private asStringArray(): string[] {
-    let reg: RegExp = this.getDelimRegExp();
-    return this.name.split(reg);
-  }
+    private asStringArray(): string[] {
+        let reg: RegExp = this.getDelimRegExp();
+        return this.name.split(reg);
+    }
 
     public getNoComponents(): number {
         return this.length;

@@ -45,7 +45,7 @@ export class StringArrayName extends AbstractName {
 
     public insert(i: number, c: string) {
         // pre-conditions
-        this.assertIndexInBounds(i);
+        this.assertIndexInBoundsForInsert(i);
         this.assertIsValidComponent(c);
         let oldLen: number = this.getNoComponents();
 

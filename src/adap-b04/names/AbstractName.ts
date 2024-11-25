@@ -154,6 +154,11 @@ export abstract class AbstractName implements Name {
         let inBounds: boolean = ((i >= 0) && (i < this.getNoComponents()));
         IllegalArgumentException.assertCondition(inBounds, "Index out of bounds")
     }
+    
+    protected assertIndexInBoundsForInsert(i: number): void {
+        let inBounds: boolean = ((i >= 0) && (i <= this.getNoComponents()));
+        IllegalArgumentException.assertCondition(inBounds, "Index out of bounds")
+    }
 
     protected assertIsValidDelimiter(c: string): void {
         IllegalArgumentException.assertIsNotNullOrUndefined(c)
@@ -166,10 +171,13 @@ export abstract class AbstractName implements Name {
             c.split(this.delimiter).length === c.split(ESCAPE_CHARACTER + this.delimiter).length;
         return hasNoUnescapedDelimiters;
     }
+
     protected assertIsValidComponent(c: string): void {
         IllegalArgumentException.assertIsNotNullOrUndefined(c);
         let hasNoUnescapedDelimiters: boolean = this.isValidComponent(c);
-        IllegalArgumentException.assertCondition(hasNoUnescapedDelimiters, "Component can not contain unescaped delimiters");
+        IllegalArgumentException.assertCondition(
+            hasNoUnescapedDelimiters,
+            "Component can not contain unescaped delimiters");
     }
 
     protected assertIsValidName(n: Name): void {
@@ -178,15 +186,22 @@ export abstract class AbstractName implements Name {
     }
 
 
+    // Class-Invariants
 
     protected assertClassInvariants(): void {
         this.assertIsValidDelimiter(this.delimiter);
         let validDelimiter: boolean = (this.delimiter.length == 1) && (this.delimiter != ESCAPE_CHARACTER);
         InvalidStateException.assertCondition(validDelimiter, "Invalid Delimiter")
-        InvalidStateException.assertCondition((this.getNoComponents() >= 0), "Component-count should can not be negative");
+        InvalidStateException.assertCondition(
+            (this.getNoComponents() >= 0),
+            "Component-count should can not be negative"
+        );
 
         for (let i: number = 0; i < this.getNoComponents(); i++) {
-            InvalidStateException.assertCondition(this.isValidComponent(this.getComponent(i)), "A component is in an invalid state");
+            InvalidStateException.assertCondition(
+                this.isValidComponent(this.getComponent(i)),
+                "A component is in an invalid state"
+            );
         }
     }
 
@@ -246,5 +261,6 @@ export abstract class AbstractName implements Name {
     protected assertReturnNotNullOrUndefined(returnVal: Object | null, exMsg: string = "null or undefined"): void {
         MethodFailureException.assertIsNotNullOrUndefined(returnVal, exMsg);
     }
+
 }
 
