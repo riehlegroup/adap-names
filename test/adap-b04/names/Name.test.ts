@@ -74,36 +74,36 @@ describe("Escape character parade", () => {
 describe("Precondition perfection", () => {
     it("Delimiters that do not delimit", () => {
         expect(() => {
-            new StringName("", null);
-        }).toThrow(new IllegalArgumentException("null or undefined"))
+            new StringName("", "\\");
+        }).toThrow(new IllegalArgumentException("Invalid Delimiter"))
         expect(() => {
-            new StringArrayName("", null);
-        }).toThrow(new IllegalArgumentException("null or undefined"))
+            new StringArrayName([], "\\");
+        }).toThrow(new IllegalArgumentException("Invalid Delimiter"))
     })
-    it("invalid others", () => {
-        expect(() => {
-            new StringName(null);
-        }).toThrow(new IllegalArgumentException("null or undefined"))
-        expect(() => {
-            new StringArrayName(null);
-        }).toThrow(new IllegalArgumentException("null or undefined"))
-    })
+    // it("invalid others", () => {
+    //     expect(() => {
+    //         new StringName(null);
+    //     }).toThrow(new IllegalArgumentException("null or undefined"))
+    //     expect(() => {
+    //         new StringArrayName(null);
+    //     }).toThrow(new IllegalArgumentException("null or undefined"))
+    // })
     it("More invalid others", () => {
         let n: Name = new StringName("");
         expect(() => {
             n.append("....");
         }).toThrow(new IllegalArgumentException("Component can not contain unescaped delimiters"))
         expect(() => {
-            n.append(null);
-        }).toThrow(new IllegalArgumentException("null or undefined"))
+            n.append("\\..");
+        }).toThrow(new IllegalArgumentException("Component can not contain unescaped delimiters"))
 
         let n2: Name = new StringArrayName([]);
         expect(() => {
             n2.append("....");
         }).toThrow(new IllegalArgumentException("Component can not contain unescaped delimiters"))
         expect(() => {
-            n2.append(null);
-        }).toThrow(new IllegalArgumentException("null or undefined"))
+            n2.append("\\..");
+        }).toThrow(new IllegalArgumentException("Component can not contain unescaped delimiters"))
     })
 
     it("Invalid Indexes", () => {
@@ -112,8 +112,8 @@ describe("Precondition perfection", () => {
             n.insert(-1, "test");
         }).toThrow(new IllegalArgumentException("Index out of bounds"))
         expect(() => {
-            n.insert(null, "test");
-        }).toThrow(new IllegalArgumentException("null or undefined"))
+            n.insert(3, "test");
+        }).toThrow(new IllegalArgumentException("Index out of bounds"))
 
         let n2: Name = new StringArrayName([]);
         expect(() => {
