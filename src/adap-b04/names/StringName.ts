@@ -9,7 +9,9 @@ export class StringName extends AbstractName {
 
     constructor(other: string, delimiter?: string) {
         super(delimiter);
+        this.assertArgumentNotNullOrUndefined(other);
         this.name = other;
+
         this.noComponents = this.asStringArray().length;
     }
 

@@ -10,6 +10,7 @@ export class StringArrayName extends AbstractName {
         super(delimiter);
 
         // other.forEach(this.assertIsValidComponent);
+        this.assertArgumentNotNullOrUndefined(other);
         this.components = other;
     }
 

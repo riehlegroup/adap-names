@@ -134,11 +134,9 @@ export abstract class AbstractName implements Name {
 
     public concat(other: Name): void {
         this.assertIsValidName(other);
+        this.assertSameDelimiter(other);
         let oldCompoCount: number = this.getNoComponents();
 
-        if (other.getDelimiterCharacter() != this.getDelimiterCharacter()) {
-            throw new Error("Cannot concatenate names with different delimiters")
-        }
         for (let i = 0; i < other.getNoComponents(); i++) {
             this.append(other.getComponent(i));
         }
@@ -156,6 +154,7 @@ export abstract class AbstractName implements Name {
     }
     
     protected assertIndexInBoundsForInsert(i: number): void {
+        IllegalArgumentException.assertIsNotNullOrUndefined(i);
         let inBounds: boolean = ((i >= 0) && (i <= this.getNoComponents()));
         IllegalArgumentException.assertCondition(inBounds, "Index out of bounds")
     }
@@ -183,6 +182,17 @@ export abstract class AbstractName implements Name {
     protected assertIsValidName(n: Name): void {
         IllegalArgumentException.assertIsNotNullOrUndefined(n);
         this.assertIsValidDelimiter(n.getDelimiterCharacter());
+    }
+
+    protected assertSameDelimiter(n: Name): void {
+        IllegalArgumentException.assertCondition(
+            (this.delimiter === n.getDelimiterCharacter()),
+            "Must have identical delimiters"
+        )
+    }
+
+    protected assertArgumentNotNullOrUndefined(returnVal: Object | null, exMsg: string = "null or undefined"): void {
+        IllegalArgumentException.assertIsNotNullOrUndefined(returnVal, exMsg);
     }
 
 
