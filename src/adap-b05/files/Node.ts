@@ -1,3 +1,7 @@
+import { ExceptionType, AssertionDispatcher } from "../common/AssertionDispatcher";
+import { IllegalArgumentException } from "../common/IllegalArgumentException";
+import { InvalidStateException } from "../common/InvalidStateException";
+
 import { Name } from "../names/Name";
 import { Directory } from "./Directory";
 
@@ -47,6 +51,24 @@ export class Node {
 
     public getParentNode(): Directory {
         return this.parentNode;
+    }
+
+    /**
+     * Returns all nodes in the tree that match bn
+     * @param bn basename of node being searched for
+     */
+    public findNodes(bn: string): Set<Node> {
+        throw new Error("needs implementation or deletion");
+    }
+
+    protected assertClassInvariants(): void {
+        const bn: string = this.doGetBaseName();
+        this.assertIsValidBaseName(bn, ExceptionType.CLASS_INVARIANT);
+    }
+
+    protected assertIsValidBaseName(bn: string, et: ExceptionType): void {
+        const condition: boolean = (bn != "");
+        AssertionDispatcher.dispatch(et, condition, "invalid base name");
     }
 
 }

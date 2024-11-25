@@ -1,4 +1,7 @@
+import { ExceptionType } from "../common/AssertionDispatcher";
+import { AssertionDispatcher } from "../common/AssertionDispatcher";
 import { IllegalArgumentException } from "../common/IllegalArgumentException";
+import { MethodFailedException } from "../common/MethodFailedException";
 import { Coordinate } from "./Coordinate";
 
 export abstract class AbstractCoordinate implements Coordinate {
@@ -14,7 +17,7 @@ export abstract class AbstractCoordinate implements Coordinate {
     }
 
     public isEqual(other: Coordinate): boolean {
-        this.assertIsNotNullOrUndefined(other);
+        this.assertIsNotNullOrUndefinedAsPrecondition(other);
 
         return (this.doGetX() == other.getX()) && (this.doGetY() == other.getY());
     }
@@ -39,7 +42,7 @@ export abstract class AbstractCoordinate implements Coordinate {
     protected abstract doGetX(): number;
 
     public setX(x: number): void {
-        this.assertIsNotNullOrUndefined(x);
+        this.assertIsNotNullOrUndefinedAsPrecondition(x);
 
         this.doSetX(x);
     }
@@ -53,7 +56,7 @@ export abstract class AbstractCoordinate implements Coordinate {
     protected abstract doGetY(): number;
 
     public setY(y: number): void {
-        this.assertIsNotNullOrUndefined(y);
+        this.assertIsNotNullOrUndefinedAsPrecondition(y);
 
         this.doSetY(y);
     }
@@ -61,7 +64,7 @@ export abstract class AbstractCoordinate implements Coordinate {
     protected abstract doSetY(y: number): void;
 
     public calcStraightLineDistance(other: Coordinate): number {
-        this.assertIsNotNullOrUndefined(other);
+        this.assertIsNotNullOrUndefinedAsPrecondition(other);
 
         let deltaX: number = Math.abs(other.getX() - this.doGetX());
         let deltaY: number = Math.abs(other.getY() - this.doGetY());
@@ -75,7 +78,8 @@ export abstract class AbstractCoordinate implements Coordinate {
     protected abstract doGetR(): number;
 
     public setR(r: number): void {
-        this.assertIsNotNullOrUndefined(r);
+        this.assertIsNotNullOrUndefinedAsPrecondition(r);
+        this.assertIsValidRAsPrecondition(r);
 
         this.doSetR(r);
     }
@@ -88,17 +92,26 @@ export abstract class AbstractCoordinate implements Coordinate {
 
     protected abstract doGetPhi(): number;
 
+    /**
+     * Example code to demonstrate design by contract
+     * @param phi Angle of vector
+     */
     public setPhi(phi: number): void {
-        this.assertIsNotNullOrUndefined(phi);
-        this.assertIsValidPhi(phi);
+        this.assertIsNotNullOrUndefinedAsPrecondition(phi);
+        this.assertIsValidPhiAsPrecondition(phi);
 
         this.doSetPhi(phi);
+
+        const newPhi: number = this.doGetPhi();
+        this.assertIsValidPhiAsClassInvariant(newPhi);
+
+        MethodFailedException.assertCondition(newPhi == phi);
     }
 
     protected abstract doSetPhi(phi: number): void;
 
     public calcGreatCircleDistance(other: Coordinate): number {
-        this.assertIsNotNullOrUndefined(other);
+        this.assertIsNotNullOrUndefinedAsPrecondition(other);
 
         let lowerR = Math.min(this.getR(), other.getR());
         let deltaPhi = Math.abs(other.getPhi() - this.getPhi());
@@ -106,7 +119,7 @@ export abstract class AbstractCoordinate implements Coordinate {
     }
 
     public multiplyWith(other: Coordinate): void {
-        this.assertIsNotNullOrUndefined(other);
+        this.assertIsNotNullOrUndefinedAsPrecondition(other);
 
         let newR = this.getR() * other.getR();
         let newPhi = this.getPhi() + other.getPhi();
@@ -114,19 +127,44 @@ export abstract class AbstractCoordinate implements Coordinate {
         this.setPhi(newPhi);
     }
 
-    protected assertIsNotNullOrUndefined(other: Object): void {
+    protected assertIsNotNullOrUndefinedAsPrecondition(other: Object): void {
+        this.assertIsNotNullOrUndefined(other, ExceptionType.PRECONDITION);
+    }
+
+    protected assertIsNotNullOrUndefined(other: Object, et: ExceptionType): void {
         let condition: boolean = !IllegalArgumentException.isNullOrUndefined(other);
-        IllegalArgumentException.assertCondition(condition, "null or undefined argument");        
+        AssertionDispatcher.dispatch(et, condition, "null or undefined value");        
     }
 
-    protected assertIsValidPhi(phi: number): void {
+    protected assertIsValidRAsPrecondition(r: number): void {
+        this.assertIsValidR(r, ExceptionType.PRECONDITION);
+    }
+
+    protected assertIsValidR(r: number, et: ExceptionType): void {
+        let condition: boolean = (r >= 0);
+        AssertionDispatcher.dispatch(et, condition, "invalid r value");
+    }
+
+    protected assertIsValidPhiAsPrecondition(phi: number): void {
+        this.assertIsValidPhi(phi, ExceptionType.PRECONDITION);
+    }
+
+    protected assertIsValidPhiAsClassInvariant(phi: number): void {
+        this.assertIsValidPhi(phi, ExceptionType.CLASS_INVARIANT);
+    }
+
+    protected assertIsValidPhi(phi: number, et: ExceptionType): void {
         let condition: boolean = (phi < 0) || (phi >= 2*Math.PI);
-        IllegalArgumentException.assertCondition(condition, "invalid phi value");
+        AssertionDispatcher.dispatch(et, condition, "invalid phi value");
     }
 
-    protected assertIsValidDelChar(d: string) {
+    protected assertIsValidDelCharAsPrecondition(d: string): void {
+        this.assertIsValidDelChar(d, ExceptionType.PRECONDITION);
+    }
+
+    protected assertIsValidDelChar(d: string, et: ExceptionType): void {
         let condition: boolean = (d.length == 1);
-        IllegalArgumentException.assertCondition(condition, "invalid delimiter character");
+        AssertionDispatcher.dispatch(et, condition, "invalid delimiter character");
     }
 
 }

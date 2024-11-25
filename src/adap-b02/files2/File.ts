@@ -4,8 +4,10 @@ export interface File {
     isOpen(): boolean;
     isClosed(): boolean;
 
+    open(): void;
     read(): any[];
     write(data: any[]): void;
+    close(): void;
     delete(): void;
 
 }

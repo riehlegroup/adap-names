@@ -21,8 +21,26 @@ export class File extends Node {
     }
 
     public read(noBytes: number): Int8Array {
-        // read something
-        return new Int8Array();
+        let result: Int8Array = new Int8Array(noBytes);
+        // do something
+
+        let tries: number = 0;
+        for (let i: number = 0; i < noBytes; i++) {
+            try {
+                result[i] = this.readNextByte();
+            } catch(ex) {
+                tries++;
+                if (ex instanceof MethodFailedException) {
+                    // Oh no! What @todo?!
+                }
+            }
+        }
+
+        return result;
+    }
+
+    protected readNextByte(): number {
+        return 0; // @todo
     }
 
     public close(): void {
