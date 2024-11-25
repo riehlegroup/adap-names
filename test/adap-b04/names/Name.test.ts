@@ -74,28 +74,28 @@ describe("Escape character parade", () => {
 describe("Precondition perfection", () => {
     it("Delimiters that do not delimit", () => {
         expect(() => {
-            new StringName("", "\\");
-        }).toThrow(new IllegalArgumentException("Invalid Delimiter"))
+            new StringName("", null!);
+        }).toThrow(new IllegalArgumentException("null or undefined"))
         expect(() => {
-            new StringArrayName([], "\\");
-        }).toThrow(new IllegalArgumentException("Invalid Delimiter"))
+            new StringArrayName([], null!);
+        }).toThrow(new IllegalArgumentException("null or undefined"))
     })
-    // it("invalid others", () => {
-    //     expect(() => {
-    //         new StringName(null);
-    //     }).toThrow(new IllegalArgumentException("null or undefined"))
-    //     expect(() => {
-    //         new StringArrayName(null);
-    //     }).toThrow(new IllegalArgumentException("null or undefined"))
-    // })
+    it("invalid others", () => {
+        expect(() => {
+            new StringName(null!);
+        }).toThrow(new IllegalArgumentException("null or undefined"))
+        expect(() => {
+            new StringArrayName(null!);
+        }).toThrow(new IllegalArgumentException("null or undefined"))
+    })
     it("More invalid others", () => {
         let n: Name = new StringName("");
         expect(() => {
             n.append("....");
         }).toThrow(new IllegalArgumentException("Component can not contain unescaped delimiters"))
         expect(() => {
-            n.append("\\..");
-        }).toThrow(new IllegalArgumentException("Component can not contain unescaped delimiters"))
+            n.append(null!);
+        }).toThrow(new IllegalArgumentException("null or undefined"))
 
         let n2: Name = new StringArrayName([]);
         expect(() => {
@@ -112,8 +112,8 @@ describe("Precondition perfection", () => {
             n.insert(-1, "test");
         }).toThrow(new IllegalArgumentException("Index out of bounds"))
         expect(() => {
-            n.insert(3, "test");
-        }).toThrow(new IllegalArgumentException("Index out of bounds"))
+            n.insert(null!, "test");
+        }).toThrow(new IllegalArgumentException("null or undefined"))
 
         let n2: Name = new StringArrayName([]);
         expect(() => {
