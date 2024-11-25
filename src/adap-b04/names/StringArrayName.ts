@@ -9,12 +9,15 @@ export class StringArrayName extends AbstractName {
     constructor(other: string[], delimiter?: string) {
         super(delimiter);
 
-        other.forEach(this.assertIsValidComponent);
+        // other.forEach(this.assertIsValidComponent);
         this.components = other;
     }
 
     getNoComponents(): number {
-        return this.components.length;
+        let l: number = this.components.length;
+
+        this.assertReturnNotNullOrUndefined(l, "lenght")
+        return l;
     }
 
     public getComponent(i: number): string {
@@ -22,7 +25,11 @@ export class StringArrayName extends AbstractName {
         this.assertIndexInBounds(i);
 
         this.assertIndexInBounds(i);
-        return this.components[i];
+        let c: string = this.components[i];
+
+        this.assertReturnNotNullOrUndefined(c, "component");
+
+        return c;
     }
 
     public setComponent(i: number, c: string) {
@@ -31,27 +38,41 @@ export class StringArrayName extends AbstractName {
         this.assertIsValidComponent(c);
 
         this.components[i] = c;
+
+        this.assertComponentEquals(i, c);
+        this.assertClassInvariants();
     }
 
     public insert(i: number, c: string) {
         // pre-conditions
         this.assertIndexInBounds(i);
         this.assertIsValidComponent(c);
+        let oldLen: number = this.getNoComponents();
 
         this.components.splice(i, 0, c);
+
+        this.assertComponentInserted(i, c, oldLen);
+        this.assertClassInvariants();
     }
 
     public append(c: string) {
         // pre-conditions
         this.assertIsValidComponent(c);
+        let oldLen: number = this.getNoComponents();
 
         this.components.push(c);
+
+        this.assertComponentAppended(c, oldLen);
     }
 
     public remove(i: number) {
         // pre-conditions
         this.assertIndexInBounds(i);
+        let oldLen: number = this.getNoComponents();
+
 
         this.components.splice(i, 1)
+
+        this.assertComponentRemoved(oldLen);
     }
 }

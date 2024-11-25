@@ -14,12 +14,9 @@ export abstract class AbstractName implements Name {
         this.delimiter = delimiter;
 
         this.assertDelimiterIsSet(delimiter);
-        this.assertClassInvariants();
     }
 
     public clone(): Name {
-        this.assertClassInvariants();
-
         let clone: Name = { ...this };
 
         this.assertCloneIsEqual(clone);
@@ -31,8 +28,6 @@ export abstract class AbstractName implements Name {
     public asString(delimiter: string = this.delimiter): string {
         // pre-conditions
         this.assertIsValidDelimiter(delimiter);
-        this.assertClassInvariants();
-
 
         let str: string = "";
         let len: number = this.getNoComponents();
@@ -40,13 +35,14 @@ export abstract class AbstractName implements Name {
             let comp: string = this.getComponent(i);
             comp = comp.replaceAll(ESCAPE_CHARACTER, "");
             str += comp;
-            if (i < len) {
+            if (i < len - 1) {
                 str += delimiter;
             }
         }
 
         // post-conditions
         this.assertIsValidString(str);
+        this.assertClassInvariants();
 
         return str;
     }
@@ -59,12 +55,13 @@ export abstract class AbstractName implements Name {
         let len: number = this.getNoComponents();
         for (let i = 0; i < len; i++) {
             str += this.getComponent(i);
-            if (i < len) {
+            if (i < len - 1) {
                 str += this.delimiter;
             }
         }
         // post-conditions
         this.assertIsValidString(str);
+        this.assertClassInvariants();
 
         return str;
     }
@@ -82,13 +79,14 @@ export abstract class AbstractName implements Name {
                 comp = comp.replaceAll(ESCAPE_CHARACTER + this.delimiter, this.delimiter);
             }
             str += comp;
-            if (i < len) {
+            if (i < len - 1) {
                 str += DEFAULT_DELIMITER;
             }
         }
 
         // post-conditions
         this.assertIsValidString(str);
+        this.assertClassInvariants();
 
         return str;
     }
@@ -135,12 +133,18 @@ export abstract class AbstractName implements Name {
     abstract remove(i: number): void;
 
     public concat(other: Name): void {
+        this.assertIsValidName(other);
+        let oldCompoCount: number = this.getNoComponents();
+
         if (other.getDelimiterCharacter() != this.getDelimiterCharacter()) {
             throw new Error("Cannot concatenate names with different delimiters")
         }
         for (let i = 0; i < other.getNoComponents(); i++) {
             this.append(other.getComponent(i));
         }
+
+        this.assertConcatenated(oldCompoCount, other);
+        this.assertClassInvariants();
     }
 
 
@@ -158,7 +162,7 @@ export abstract class AbstractName implements Name {
     }
 
     protected isValidComponent(c: string): boolean {
-        let hasNoUnescapedDelimiters: boolean = 
+        let hasNoUnescapedDelimiters: boolean =
             c.split(this.delimiter).length === c.split(ESCAPE_CHARACTER + this.delimiter).length;
         return hasNoUnescapedDelimiters;
     }
@@ -175,9 +179,9 @@ export abstract class AbstractName implements Name {
 
 
 
-    protected assertClassInvariants(): void{
+    protected assertClassInvariants(): void {
         this.assertIsValidDelimiter(this.delimiter);
-        let validDelimiter: boolean = (this.delimiter.length === 1) && (this.delimiter != ESCAPE_CHARACTER);
+        let validDelimiter: boolean = (this.delimiter.length == 1) && (this.delimiter != ESCAPE_CHARACTER);
         InvalidStateException.assertCondition(validDelimiter, "Invalid Delimiter")
         InvalidStateException.assertCondition((this.getNoComponents() >= 0), "Component-count should can not be negative");
 
@@ -187,8 +191,8 @@ export abstract class AbstractName implements Name {
     }
 
     // post-conditions
-    
-    protected assertDelimiterIsSet(d: string):void {
+
+    protected assertDelimiterIsSet(d: string): void {
         MethodFailureException.assertCondition((d === this.delimiter), "Delimiter not set correctly")
     }
 
@@ -197,13 +201,50 @@ export abstract class AbstractName implements Name {
         MethodFailureException.assertCondition((this.isEqual(clone)), "Cloning failed");
     }
 
-    protected assertIsValidString(s: string): void{
+    protected assertIsValidString(s: string): void {
         MethodFailureException.assertIsNotNullOrUndefined(s);
-        if (!this.isEmpty()){
+        if (!this.isEmpty()) {
             MethodFailureException.assertCondition((s !== ""), "String should not be empty")
         } else {
             MethodFailureException.assertCondition((s === ""), "String should be empty");
         }
+    }
+
+    protected assertComponentEquals(i: number, c: string): void {
+        MethodFailureException.assertCondition(
+            (this.getComponent(i) === c),
+            "Setting Component failed"
+        )
+
+    }
+
+    protected assertNoComponentsChanged(oldLen: number, expectedDiff: number): void {
+        MethodFailureException.assertCondition(
+            (this.getNoComponents() === oldLen + expectedDiff),
+            "component-count did not change accordingly"
+        )
+    }
+
+    protected assertComponentInserted(i: number, c: string, oldLen: number): void {
+        this.assertComponentEquals(i, c);
+        this.assertNoComponentsChanged(oldLen, 1);
+    }
+
+    protected assertComponentAppended(c: string, oldLen: number): void {
+        this.assertNoComponentsChanged(oldLen, 1);
+        this.assertComponentEquals(this.getNoComponents() - 1, c);
+    }
+
+    protected assertComponentRemoved(oldLen: number): void {
+        this.assertNoComponentsChanged(oldLen, -1);
+    }
+
+    protected assertConcatenated(oldLen: number, other: Name): void {
+        this.assertNoComponentsChanged(oldLen, other.getNoComponents());
+    }
+
+    protected assertReturnNotNullOrUndefined(returnVal: Object | null, exMsg: string = "null or undefined"): void {
+        MethodFailureException.assertIsNotNullOrUndefined(returnVal, exMsg);
     }
 }
 
