@@ -1,5 +1,7 @@
 import { Node } from "./Node";
 import { Directory } from "./Directory";
+import { MethodFailureException } from "../common/MethodFailureException";
+import { IllegalArgumentException } from "../common/IllegalArgumentException";
 
 export class Link extends Node {
 
@@ -10,6 +12,7 @@ export class Link extends Node {
 
         if (tn != undefined) {
             this.targetNode = tn;
+            this.assertTargetIsSetTo(tn);
         }
     }
 
@@ -18,7 +21,12 @@ export class Link extends Node {
     }
 
     public setTargetNode(target: Node): void {
+        this.assertArgumentNotNullOrUndefined(target);
+
         this.targetNode = target;
+
+        this.assertTargetIsSetTo(target);
+        this.assertClassInvariants();
     }
 
     public getBaseName(): string {
@@ -35,4 +43,18 @@ export class Link extends Node {
         const result: Node = this.targetNode as Node;
         return result;
     }
+    protected assertIsNotUndefined(node: Node | null): void {
+        IllegalArgumentException.assertCondition(
+        (node !== undefined),
+        "undefined argument");
+
+    }
+
+    protected assertTargetIsSetTo(target: Node): void {
+        MethodFailureException.assertCondition(
+            (this.targetNode === target),
+            "Target Node is not set correctly"
+        )
+    }
+
 }

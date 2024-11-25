@@ -56,7 +56,7 @@ export class StringName extends AbstractName {
     }
 
     public insert(i: number, c: string) {
-        this.assertIndexInBounds(i);
+        this.assertIndexInBoundsForInsert(i);
         this.assertIsValidComponent(c);
 
         let components: string[] = this.asStringArray();
@@ -70,16 +70,25 @@ export class StringName extends AbstractName {
     }
 
     public append(c: string) {
+        this.assertIsValidComponent(c);
+        let oldNoComponents: number = this.getNoComponents();
+
         this.name += this.delimiter + c;
         this.noComponents += 1;
+
+        this.assertComponentAppended(c, oldNoComponents)
     }
 
     public remove(i: number) {
-        // this.assertInBounds(i);
+        this.assertIndexInBounds(i);
+        let oldNoComponents: number = this.getNoComponents();
+
         let components: string[] = this.asStringArray();
         components.splice(i, 1);
         this.name = components.join(this.delimiter);
         this.noComponents -= 1;
+
+        this.assertComponentRemoved(oldNoComponents);
     }
 
 }
