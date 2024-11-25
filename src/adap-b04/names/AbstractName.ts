@@ -1,3 +1,6 @@
+import { MethodFailureException } from "../common/MethodFailureException";
+import { IllegalArgumentException } from "../common/IllegalArgumentException";
+import { InvalidStateException } from "../common/InvalidStateException";
 import { DEFAULT_DELIMITER, ESCAPE_CHARACTER } from "../common/Printable";
 import { Name } from "./Name";
 
@@ -6,17 +9,34 @@ export abstract class AbstractName implements Name {
     protected delimiter: string = DEFAULT_DELIMITER;
 
     constructor(delimiter: string = DEFAULT_DELIMITER) {
+        this.assertIsValidDelimiter(delimiter);
+
         this.delimiter = delimiter;
+
+        this.assertDelimiterIsSet(delimiter);
+        this.assertClassInvariants();
     }
 
     public clone(): Name {
-        return { ...this };
+        this.assertClassInvariants();
+
+        let clone: Name = { ...this };
+
+        this.assertCloneIsEqual(clone);
+        this.assertClassInvariants();
+
+        return clone;
     }
 
     public asString(delimiter: string = this.delimiter): string {
+        // pre-conditions
+        this.assertIsValidDelimiter(delimiter);
+        this.assertClassInvariants();
+
+
         let str: string = "";
         let len: number = this.getNoComponents();
-        for (let i = 0; i > len; i++) {
+        for (let i = 0; i < len; i++) {
             let comp: string = this.getComponent(i);
             comp = comp.replaceAll(ESCAPE_CHARACTER, "");
             str += comp;
@@ -24,25 +44,38 @@ export abstract class AbstractName implements Name {
                 str += delimiter;
             }
         }
+
+        // post-conditions
+        this.assertIsValidString(str);
+
         return str;
     }
 
     public toString(): string {
+        // pre-conditions
+        this.assertIsValidDelimiter(this.delimiter);
+
         let str: string = "";
         let len: number = this.getNoComponents();
-        for (let i = 0; i > len; i++) {
+        for (let i = 0; i < len; i++) {
             str += this.getComponent(i);
             if (i < len) {
                 str += this.delimiter;
             }
         }
+        // post-conditions
+        this.assertIsValidString(str);
+
         return str;
     }
 
     public asDataString(): string {
+        // pre-conditions
+        this.assertIsValidDelimiter(DEFAULT_DELIMITER);
+
         let str: string = "";
         let len: number = this.getNoComponents();
-        for (let i = 0; i > len; i++) {
+        for (let i = 0; i < len; i++) {
             let comp: string = this.getComponent(i);
             if (this.delimiter != DEFAULT_DELIMITER) {
                 comp = comp.replaceAll(DEFAULT_DELIMITER, ESCAPE_CHARACTER + DEFAULT_DELIMITER);
@@ -53,10 +86,17 @@ export abstract class AbstractName implements Name {
                 str += DEFAULT_DELIMITER;
             }
         }
+
+        // post-conditions
+        this.assertIsValidString(str);
+
         return str;
     }
 
     public isEqual(other: Name): boolean {
+        // pre-conditions
+        this.assertIsValidName(other);
+
         return ((this.toString() == other.toString()) &&
             (this.getDelimiterCharacter() == other.getDelimiterCharacter()) &&
             (this.getNoComponents() == other.getNoComponents())
@@ -79,6 +119,9 @@ export abstract class AbstractName implements Name {
     }
 
     public getDelimiterCharacter(): string {
+        // pre-conditions
+        this.assertIsValidDelimiter(this.delimiter);
+
         return this.delimiter;
     }
 
@@ -97,6 +140,69 @@ export abstract class AbstractName implements Name {
         }
         for (let i = 0; i < other.getNoComponents(); i++) {
             this.append(other.getComponent(i));
+        }
+    }
+
+
+    // pre-conditions
+
+    protected assertIndexInBounds(i: number): void {
+        let inBounds: boolean = ((i >= 0) && (i < this.getNoComponents()));
+        IllegalArgumentException.assertCondition(inBounds, "Index out of bounds")
+    }
+
+    protected assertIsValidDelimiter(c: string): void {
+        IllegalArgumentException.assertIsNotNullOrUndefined(c)
+        let isValid: boolean = (c.length === 1) && (c != ESCAPE_CHARACTER);
+        IllegalArgumentException.assertCondition(isValid, "Invalid Delimiter")
+    }
+
+    protected isValidComponent(c: string): boolean {
+        let hasNoUnescapedDelimiters: boolean = 
+            c.split(this.delimiter).length === c.split(ESCAPE_CHARACTER + this.delimiter).length;
+        return hasNoUnescapedDelimiters;
+    }
+    protected assertIsValidComponent(c: string): void {
+        IllegalArgumentException.assertIsNotNullOrUndefined(c);
+        let hasNoUnescapedDelimiters: boolean = this.isValidComponent(c);
+        IllegalArgumentException.assertCondition(hasNoUnescapedDelimiters, "Component can not contain unescaped delimiters");
+    }
+
+    protected assertIsValidName(n: Name): void {
+        IllegalArgumentException.assertIsNotNullOrUndefined(n);
+        this.assertIsValidDelimiter(n.getDelimiterCharacter());
+    }
+
+
+
+    protected assertClassInvariants(): void{
+        this.assertIsValidDelimiter(this.delimiter);
+        let validDelimiter: boolean = (this.delimiter.length === 1) && (this.delimiter != ESCAPE_CHARACTER);
+        InvalidStateException.assertCondition(validDelimiter, "Invalid Delimiter")
+        InvalidStateException.assertCondition((this.getNoComponents() >= 0), "Component-count should can not be negative");
+
+        for (let i: number = 0; i < this.getNoComponents(); i++) {
+            InvalidStateException.assertCondition(this.isValidComponent(this.getComponent(i)), "A component is in an invalid state");
+        }
+    }
+
+    // post-conditions
+    
+    protected assertDelimiterIsSet(d: string):void {
+        MethodFailureException.assertCondition((d === this.delimiter), "Delimiter not set correctly")
+    }
+
+    protected assertCloneIsEqual(clone: Name): void {
+        MethodFailureException.assertIsNotNullOrUndefined(clone);
+        MethodFailureException.assertCondition((this.isEqual(clone)), "Cloning failed");
+    }
+
+    protected assertIsValidString(s: string): void{
+        MethodFailureException.assertIsNotNullOrUndefined(s);
+        if (!this.isEmpty()){
+            MethodFailureException.assertCondition((s !== ""), "String should not be empty")
+        } else {
+            MethodFailureException.assertCondition((s === ""), "String should be empty");
         }
     }
 }
