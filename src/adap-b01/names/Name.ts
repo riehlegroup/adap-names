@@ -1,72 +1,103 @@
 export const DEFAULT_DELIMITER: string = '.';
 export const ESCAPE_CHARACTER = '\\';
 
-/**
- * A name is a sequence of string components separated by a delimiter character.
- * Special characters within the string may need masking, if they are to appear verbatim.
- * There are only two special characters, the delimiter character and the escape character.
- * The escape character can't be set, the delimiter character can.
- * 
- * Homogenous name examples
- * 
- * "oss.cs.fau.de" is a name with four name components and the delimiter character '.'.
- * "///" is a name with four empty components and the delimiter character '/'.
- * "Oh\.\.\." is a name with one component, if the delimiter character is '.'.
- */
 export class Name {
+    private delimiter: string;
+    private components: string[];
 
-    private delimiter: string = DEFAULT_DELIMITER;
-    private components: string[] = [];
-
-    /** Expects that all Name components are properly masked */
-    constructor(other: string[], delimiter?: string) {
-        throw new Error("needs implementation");
+    /**
+     * Constructs a new Name instance.
+     * @param other An array of masked name components.
+     * @param delimiter Optional delimiter character to use.
+     */
+    constructor(other: string[], delimiter: string = DEFAULT_DELIMITER) {
+        this.delimiter = delimiter;
+        this.components = other.map((comp) => this.validateMasked(comp));
     }
 
     /**
-     * Returns a human-readable representation of the Name instance using user-set control characters
-     * Control characters are not escaped (creating a human-readable string)
-     * Users can vary the delimiter character to be used
+     * Returns a human-readable string representation using the specified delimiter.
      */
     public asString(delimiter: string = this.delimiter): string {
-        throw new Error("needs implementation");
+        return this.components.map((comp) => this.unmask(comp)).join(delimiter);
     }
 
-    /** 
-     * Returns a machine-readable representation of Name instance using default control characters
-     * Machine-readable means that from a data string, a Name can be parsed back in
-     * The control characters in the data string are the default characters
+    /**
+     * Returns a machine-readable string representation using the default delimiter.
      */
     public asDataString(): string {
-        throw new Error("needs implementation");
+        return this.components.join(this.delimiter);
     }
 
+    /**
+     * Returns the component at the specified index.
+     */
     public getComponent(i: number): string {
-        throw new Error("needs implementation");
+        if (i < 0 || i >= this.components.length) {
+            throw new Error("Index out of bounds");
+        }
+        return this.unmask(this.components[i]);
     }
 
-    /** Expects that new Name component c is properly masked */
+    /**
+     * Updates the component at the specified index with a properly masked value.
+     */
     public setComponent(i: number, c: string): void {
-        throw new Error("needs implementation");
+        if (i < 0 || i >= this.components.length) {
+            throw new Error("Index out of bounds");
+        }
+        this.components[i] = this.validateMasked(c);
     }
 
-     /** Returns number of components in Name instance */
-     public getNoComponents(): number {
-        throw new Error("needs implementation");
+    /**
+     * Returns the number of components in the name.
+     */
+    public getNoComponents(): number {
+        return this.components.length;
     }
 
-    /** Expects that new Name component c is properly masked */
+    /**
+     * Inserts a new masked component at the specified index.
+     */
     public insert(i: number, c: string): void {
-        throw new Error("needs implementation");
+        if (i < 0 || i > this.components.length) {
+            throw new Error("Index out of bounds");
+        }
+        this.components.splice(i, 0, this.validateMasked(c));
     }
 
-    /** Expects that new Name component c is properly masked */
+    /**
+     * Appends a new masked component to the end of the name.
+     */
     public append(c: string): void {
-        throw new Error("needs implementation");
+        this.components.push(this.validateMasked(c));
     }
 
+    /**
+     * Removes the component at the specified index.
+     */
     public remove(i: number): void {
-        throw new Error("needs implementation");
+        if (i < 0 || i >= this.components.length) {
+            throw new Error("Index out of bounds");
+        }
+        this.components.splice(i, 1);
     }
 
+    /**
+     * Ensures the component is properly masked and validates against the delimiter and escape character.
+     */
+    private validateMasked(component: string): string {
+        const regex = new RegExp(`[^\\${ESCAPE_CHARACTER}]\\${this.delimiter}|[^\\${ESCAPE_CHARACTER}]\\${ESCAPE_CHARACTER}`, 'g');
+        if (regex.test(component)) {
+            throw new Error(`Invalid masked component: ${component}`);
+        }
+        return component;
+    }
+
+    /**
+     * Unmasks special characters in the component for human-readable output.
+     */
+    private unmask(component: string): string {
+        return component.replace(new RegExp(`\\${ESCAPE_CHARACTER}(.)`, "g"), "$1");
+    }
 }
