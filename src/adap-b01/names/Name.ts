@@ -20,7 +20,7 @@ export class Name {
 
     /** Expects that all Name components are properly masked */
     constructor(other: string[], delimiter?: string) {
-        throw new Error("needs implementation or deletion");
+        throw new Error("needs implementation");
     }
 
     /**
@@ -29,7 +29,7 @@ export class Name {
      * Users can vary the delimiter character to be used
      */
     public asString(delimiter: string = this.delimiter): string {
-        throw new Error("needs implementation or deletion");
+        throw new Error("needs implementation");
     }
 
     /** 
@@ -38,35 +38,35 @@ export class Name {
      * The control characters in the data string are the default characters
      */
     public asDataString(): string {
-        throw new Error("needs implementation or deletion");
+        throw new Error("needs implementation");
     }
 
     public getComponent(i: number): string {
-        throw new Error("needs implementation or deletion");
+        throw new Error("needs implementation");
     }
 
     /** Expects that new Name component c is properly masked */
     public setComponent(i: number, c: string): void {
-        throw new Error("needs implementation or deletion");
+        throw new Error("needs implementation");
     }
 
      /** Returns number of components in Name instance */
      public getNoComponents(): number {
-        throw new Error("needs implementation or deletion");
+        throw new Error("needs implementation");
     }
 
     /** Expects that new Name component c is properly masked */
     public insert(i: number, c: string): void {
-        throw new Error("needs implementation or deletion");
+        throw new Error("needs implementation");
     }
 
     /** Expects that new Name component c is properly masked */
     public append(c: string): void {
-        throw new Error("needs implementation or deletion");
+        throw new Error("needs implementation");
     }
 
     public remove(i: number): void {
-        throw new Error("needs implementation or deletion");
+        throw new Error("needs implementation");
     }
 
 }

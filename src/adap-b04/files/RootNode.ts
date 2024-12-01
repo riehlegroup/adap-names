@@ -12,9 +12,6 @@ export class RootNode extends Directory {
 
     constructor() {
         super("", new Object as Directory);
-    }
-
-    protected initialize(pn: Directory): void {
         this.parentNode = this;
     }
 

@@ -8,19 +8,12 @@ export class Node {
 
     constructor(bn: string, pn: Directory) {
         this.doSetBaseName(bn);
-        this.parentNode = pn; // why oh why do I have to set this
-        this.initialize(pn);
-    }
-
-    protected initialize(pn: Directory): void {
         this.parentNode = pn;
-        this.parentNode.add(this);
     }
 
     public move(to: Directory): void {
         this.parentNode.remove(this);
         to.add(this);
-        this.parentNode = to;
     }
 
     public getFullName(): Name {
@@ -45,7 +38,7 @@ export class Node {
         this.baseName = bn;
     }
 
-    public getParentNode(): Directory {
+    public getParentNode(): Node {
         return this.parentNode;
     }
 
