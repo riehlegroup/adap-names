@@ -7,8 +7,12 @@ export abstract class Exception extends Error {
         return (o == undefined) || (o == null);
     }
 
-    constructor(m: string) {
+    constructor(m: string, t?: Exception) {
         super(m);
+
+        if (t != undefined) {
+            let a  = t;
+        }
     }
 
 }
