@@ -6,7 +6,7 @@ export class StringArrayName implements Name {
     protected components: string[];
 
     constructor(other: string[] = [], delimiter: string = DEFAULT_DELIMITER) {
-        this.delimiter = delimiter;
+        this.delimiter = delimiter || DEFAULT_DELIMITER;
         this.components = other.map((comp) => this.mask(comp));
     }
 
@@ -72,7 +72,7 @@ export class StringArrayName implements Name {
         if (i < 0 || i > this.components.length) {
             throw new Error("Index out of bounds");
         }
-        this.components.splice(i, 0, this.mask(c));
+        this.components.splice(i, 0, c);
     }
 
     /**

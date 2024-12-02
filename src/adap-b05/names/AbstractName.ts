@@ -1,44 +1,87 @@
 import { DEFAULT_DELIMITER, ESCAPE_CHARACTER } from "../common/Printable";
 import { Name } from "./Name";
+import { IllegalArgumentException } from "../common/IllegalArgumentException";
+import { InvalidStateException } from "../common/InvalidStateException";
+import { MethodFailureException } from "../common/MethodFailureException";
 
 export abstract class AbstractName implements Name {
 
     protected delimiter: string = DEFAULT_DELIMITER;
 
     constructor(delimiter: string = DEFAULT_DELIMITER) {
-        throw new Error("needs implementation or deletion");
+        IllegalArgumentException.assertIsNotNullOrUndefined(delimiter, "Delimiter is null or undefined");
+        this.delimiter = delimiter;
+        //throw new Error("needs implementation");
     }
 
     public clone(): Name {
-        throw new Error("needs implementation or deletion");
+        const cloned = {...this};
+
+        return cloned;
+        //throw new Error("needs implementation");
     }
 
     public asString(delimiter: string = this.delimiter): string {
-        throw new Error("needs implementation or deletion");
+        IllegalArgumentException.assertIsNotNullOrUndefined(delimiter);
+        const text: string[] = [];
+        
+        for (let i = 0; i < this.getNoComponents(); i++) {
+            text.push(this.getComponent(i));
+        }
+        const result = text.join(delimiter);
+
+        MethodFailureException.assertIsNotNullOrUndefined(result,"Result of asString is null or undefined");
+        return result;
+        //throw new Error("needs implementation");
     }
 
     public toString(): string {
         return this.asDataString();
+        //throw new Error("needs implementation");
     }
 
     public asDataString(): string {
-        throw new Error("needs implementation or deletion");
+        const components: string[] = [];
+        for (let i = 0; i < this.getNoComponents(); i++) {
+            const component = this.getComponent(i);
+            const replacedComponent = component.replaceAll(
+                this.delimiter, 
+                ESCAPE_CHARACTER + this.delimiter
+            );
+            components.push(replacedComponent);
+        }
+        const result = components.join(this.delimiter);
+        
+        MethodFailureException.assertIsNotNullOrUndefined(result, "Result of asDataString is null or undefined");
+
+        return result;
+        //throw new Error("needs implementation");
     }
 
     public isEqual(other: Name): boolean {
-        throw new Error("needs implementation or deletion");
+        InvalidStateException.assertIsNotNullOrUndefined(other, "Object is null or undefined")
+
+        for (let i = 0; i < this.getNoComponents(); i++) {
+            if (this.getComponent(i) != other.getComponent(i)) {
+                return false;
+            }
+        }
+        return true
+        //throw new Error("needs implementation");
     }
 
     public getHashCode(): number {
-        throw new Error("needs implementation or deletion");
+        throw new Error("needs implementation");
     }
 
     public isEmpty(): boolean {
-        throw new Error("needs implementation or deletion");
+        return (this.getNoComponents() == 0);
+        //throw new Error("needs implementation");
     }
 
     public getDelimiterCharacter(): string {
-        throw new Error("needs implementation or deletion");
+        return this.delimiter;
+        //throw new Error("needs implementation");
     }
 
     abstract getNoComponents(): number;
@@ -51,7 +94,7 @@ export abstract class AbstractName implements Name {
     abstract remove(i: number): void;
 
     public concat(other: Name): void {
-        throw new Error("needs implementation or deletion");
+        throw new Error("needs implementation");
     }
 
 }

@@ -7,8 +7,8 @@ export class StringName implements Name {
     protected noComponents: number;
 
     constructor(other: string, delimiter: string = DEFAULT_DELIMITER) {
-        this.delimiter = delimiter;
-        this.name = this.mask(other);
+        this.delimiter = delimiter || DEFAULT_DELIMITER;
+        this.name = other;
         this.noComponents = this.calculateComponents(this.name);
     }
 
@@ -78,7 +78,7 @@ export class StringName implements Name {
         if (n < 0 || n > components.length) {
             throw new Error("Index out of bounds");
         }
-        components.splice(n, 0, this.mask(c));
+        components.splice(n, 0, c);
         this.name = components.join(this.delimiter);
         this.noComponents = components.length;
     }
