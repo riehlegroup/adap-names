@@ -14,12 +14,20 @@ export class CartesianCoordinate extends AbstractCoordinate {
 
     protected initialize(x?: number, y?: number): void {
         if (x != undefined) {
-            this.doSetX(x);
+            this.x = x;
         }
 
         if (y != undefined) {
-            this.doSetY(y);
+            this.y = y;
         }
+    }
+
+    protected doCreate(x: number, y: number): Coordinate {
+        return new CartesianCoordinate(x, y);
+    }
+
+    public asDataString(): string {
+        return this.doGetX() + '#' + this.doGetY();
     }
 
     public getOrigin(): Coordinate {

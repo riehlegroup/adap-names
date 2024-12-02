@@ -7,7 +7,7 @@ export class StringName implements Name {
     protected name: string = "";
     protected noComponents: number = 0;
 
-    constructor(other: string, delimiter?: string) {
+    constructor(source: string, delimiter?: string) {
         throw new Error("needs implementation or deletion");
     }
 

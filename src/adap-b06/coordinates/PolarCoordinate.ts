@@ -14,12 +14,20 @@ export class PolarCoordinate extends AbstractCoordinate {
 
     protected initialize(r?: number, phi?: number): void {
         if (r != undefined) {
-            this.setR(r);
+            this.r = r;
         }
 
         if (phi != undefined) {
-            this.setPhi(phi);
+            this.phi = phi;
         }
+    }
+
+    protected doCreate(r: number, phi: number): Coordinate {
+        return new PolarCoordinate(r, phi);
+    }
+
+    public asDataString(): string {
+        return this.doGetR() + '#' + this.doGetPhi();
     }
 
     public getOrigin(): Coordinate {

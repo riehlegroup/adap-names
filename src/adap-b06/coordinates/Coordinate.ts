@@ -1,12 +1,11 @@
 import { Equality } from "../common/Equality";
 import { Cloneable } from "../common/Cloneable";
-import { Printable } from "../common/Printable";
 
 /**
  * A coordinate (here) is a point in a two-dimensional coordinate system.
  * The coordinate system may be cartesian or polar; coordinates should be interchangeable.
  */
-export interface Coordinate extends Equality, Cloneable, Printable {
+export interface Coordinate extends Cloneable, Equality {
 
     /**
      * Returns the origin of the coordinate system
