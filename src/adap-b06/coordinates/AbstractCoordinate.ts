@@ -1,12 +1,17 @@
 import { IllegalArgumentException } from "../common/IllegalArgumentException";
+
 import { Coordinate } from "./Coordinate";
-import { PolarCoordinate } from "./PolarCoordinate";
 
 export abstract class AbstractCoordinate implements Coordinate {
 
-    public asString(delChar: string) {
-        this.assertIsValidDelChar(delChar);
+    public clone(): Coordinate {
+        return this.doCreate(this.doGetX(), this.doGetY());
+    }
 
+    protected abstract doCreate(x: number, y: number): Coordinate;
+
+    public asString(delChar: string) {
+        IllegalArgumentException.assert(this.isValidDelChar(delChar));
         return this.doGetX() + delChar + this.doGetY();
     }
 
@@ -14,29 +19,21 @@ export abstract class AbstractCoordinate implements Coordinate {
         return this.asDataString();
     }
 
-    public asDataString(): string {
-        return this.asString("#");
-    }
+    public abstract asDataString(): string;
 
     public isEqual(other: Coordinate): boolean {
-        this.assertIsNotNullOrUndefined(other);
-
         return (this.doGetX() == other.getX()) && (this.doGetY() == other.getY());
     }
 
     public getHashCode(): number {
         let hashCode: number = 0;
         const s: string = this.asDataString();
-        for (let i = 0; i < s.length; i++) {
-            let c = s.charCodeAt(i);
+        for (let i: number = 0; i < s.length; i++) {
+            let c: number = s.charCodeAt(i);
             hashCode = (hashCode << 5) - hashCode + c;
             hashCode |= 0;
         }
         return hashCode;
-    }
-
-    public clone(): Coordinate {
-        return { ...this };
     }
 
     abstract getOrigin(): Coordinate;
@@ -48,8 +45,6 @@ export abstract class AbstractCoordinate implements Coordinate {
     protected abstract doGetX(): number;
 
     public setX(x: number): Coordinate {
-        this.assertIsNotNullOrUndefined(x);
-
         return this.doSetX(x);
     }
 
@@ -62,16 +57,12 @@ export abstract class AbstractCoordinate implements Coordinate {
     protected abstract doGetY(): number;
 
     public setY(y: number): Coordinate {
-        this.assertIsNotNullOrUndefined(y);
-
         return this.doSetY(y);
     }
 
     protected abstract doSetY(y: number): Coordinate;
 
     public calcStraightLineDistance(other: Coordinate): number {
-        this.assertIsNotNullOrUndefined(other);
-
         let deltaX: number = Math.abs(other.getX() - this.doGetX());
         let deltaY: number = Math.abs(other.getY() - this.doGetY());
         return Math.hypot(deltaX, deltaY);
@@ -84,8 +75,6 @@ export abstract class AbstractCoordinate implements Coordinate {
     protected abstract doGetR(): number;
 
     public setR(r: number): Coordinate {
-        this.assertIsNotNullOrUndefined(r);
-
         return this.doSetR(r);
     }
 
@@ -98,43 +87,34 @@ export abstract class AbstractCoordinate implements Coordinate {
     protected abstract doGetPhi(): number;
 
     public setPhi(phi: number): Coordinate {
-        this.assertIsNotNullOrUndefined(phi);
-        this.assertIsValidPhi(phi);
-
+        IllegalArgumentException.assert(this.isValidPhi(phi));
         return this.doSetPhi(phi);
     }
 
     protected abstract doSetPhi(phi: number): Coordinate;
 
     public calcGreatCircleDistance(other: Coordinate): number {
-        this.assertIsNotNullOrUndefined(other);
-
         let lowerR = Math.min(this.getR(), other.getR());
         let deltaPhi = Math.abs(other.getPhi() - this.getPhi());
         return lowerR * deltaPhi;
     }
 
     public multiplyWith(other: Coordinate): Coordinate {
-        this.assertIsNotNullOrUndefined(other);
-
         let newR = this.getR() * other.getR();
         let newPhi = this.getPhi() + other.getPhi();
-        return new PolarCoordinate(newR, newPhi);
+        return this.doCreate(newR, newPhi);
     }
 
-    protected assertIsNotNullOrUndefined(other: Object): void {
-        let condition: boolean = !IllegalArgumentException.isNullOrUndefined(other);
-        IllegalArgumentException.assertCondition(condition, "null or undefined argument");        
+    protected isValidR(r: number): boolean {
+        return r >= 0;
     }
 
-    protected assertIsValidPhi(phi: number): void {
-        let condition: boolean = (phi < 0) || (phi >= 2*Math.PI);
-        IllegalArgumentException.assertCondition(condition, "invalid phi value");
+    protected isValidPhi(phi: number): boolean {
+        return (phi >= 0) && (phi < 2*Math.PI);
     }
 
-    protected assertIsValidDelChar(d: string) {
-        let condition: boolean = (d.length == 1);
-        IllegalArgumentException.assertCondition(condition, "invalid delimiter character");
+    protected isValidDelChar(d: string): boolean {
+        return d.length == 1;
     }
 
 }

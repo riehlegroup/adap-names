@@ -10,12 +10,14 @@ export class StringName extends AbstractName {
     protected name: string = "";
     protected noComponents: number = 0;
 
+
     constructor(other: string, delimiter?: string) {
         IllegalArgumentException.assertIsNotNullOrUndefined(other, "string is null or undefined");
 
         super(delimiter);
         this.name = other;
         this.noComponents = this.name.split(this.delimiter).length
+
 
         MethodFailureException.assertIsNotNullOrUndefined(this.name, "can not assigned the string");
         MethodFailureException.assertCondition(this.noComponents > 0, "number of components is zero");

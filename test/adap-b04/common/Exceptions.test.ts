@@ -8,13 +8,13 @@ describe("Asserting not null or undefined", () => {
   it("test asserIsNotNullOrUndefined", async () => {
     const m: string = "null or undefined";
 
-    IllegalArgumentException.assertIsNotNullOrUndefined("hurray!");
-    expect(() => IllegalArgumentException.assertIsNotNullOrUndefined(null)).toThrow(new IllegalArgumentException(m));
+    IllegalArgumentException.assert("hurray!" != null);
+    expect(() => IllegalArgumentException.assert(false, m)).toThrow(new IllegalArgumentException(m));
 
-    MethodFailedException.assertIsNotNullOrUndefined("hurray!");
-    expect(() => MethodFailedException.assertIsNotNullOrUndefined(null)).toThrow(new MethodFailedException(m));
+    MethodFailedException.assert("hurray!" != null);
+    expect(() => MethodFailedException.assert(false, m)).toThrow(new MethodFailedException(m));
 
-    InvalidStateException.assertIsNotNullOrUndefined("hurray!");
-    expect(() => InvalidStateException.assertIsNotNullOrUndefined(null)).toThrow(new InvalidStateException(m));
+    InvalidStateException.assert("hurray!" != null);
+    expect(() => InvalidStateException.assert(false, m)).toThrow(new InvalidStateException(m));
   });
 });

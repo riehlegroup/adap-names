@@ -9,11 +9,15 @@ export class Node {
     constructor(bn: string, pn: Directory) {
         this.doSetBaseName(bn);
         this.parentNode = pn;
+
+        this.parentNode.addChildNode(this);
     }
 
     public move(to: Directory): void {
-        this.parentNode.remove(this);
-        to.add(this);
+        this.parentNode.removeChildNode(this);
+        to.addChildNode(this);
+        this.parentNode = to;
+
     }
 
     public getFullName(): Name {

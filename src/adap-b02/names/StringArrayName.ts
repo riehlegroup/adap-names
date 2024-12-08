@@ -5,9 +5,16 @@ export class StringArrayName implements Name {
     protected delimiter: string;
     protected components: string[];
 
-    constructor(other: string[] = [], delimiter: string = DEFAULT_DELIMITER) {
+
+        
+
+    protected delimiter: string = DEFAULT_DELIMITER;
+    protected components: string[] = [];
+
+    constructor(source: string[], delimiter?: string) {
         this.delimiter = delimiter || DEFAULT_DELIMITER;
         this.components = other.map((comp) => this.mask(comp));
+
     }
 
     /**

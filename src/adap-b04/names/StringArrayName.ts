@@ -9,6 +9,7 @@ export class StringArrayName extends AbstractName {
 
     protected components: string[] = [];
 
+
     constructor(other: string[], delimiter?: string) {
         
         IllegalArgumentException.assertIsNotNullOrUndefined(other, "string is null or undefined");
@@ -16,6 +17,7 @@ export class StringArrayName extends AbstractName {
         this.components = other;
         
         //throw new Error("needs implementation");
+
     }
     /**    
     public clone(): Name {

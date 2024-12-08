@@ -1,4 +1,9 @@
 import { IllegalArgumentException } from "../common/IllegalArgumentException";
+
+import { InvalidStateException } from "../common/InvalidStateException";
+import { MethodFailedException } from "../common/MethodFailedException";
+
+
 import { Coordinate } from "./Coordinate";
 
 export abstract class AbstractCoordinate implements Coordinate {
@@ -14,7 +19,9 @@ export abstract class AbstractCoordinate implements Coordinate {
     }
 
     public isEqual(other: Coordinate): boolean {
+
         this.assertIsNotNullOrUndefined(other);
+
 
         return (this.doGetX() == other.getX()) && (this.doGetY() == other.getY());
     }
@@ -39,7 +46,9 @@ export abstract class AbstractCoordinate implements Coordinate {
     protected abstract doGetX(): number;
 
     public setX(x: number): void {
+
         this.assertIsNotNullOrUndefined(x);
+
 
         this.doSetX(x);
     }
@@ -53,7 +62,9 @@ export abstract class AbstractCoordinate implements Coordinate {
     protected abstract doGetY(): number;
 
     public setY(y: number): void {
+
         this.assertIsNotNullOrUndefined(y);
+
 
         this.doSetY(y);
     }
@@ -61,6 +72,7 @@ export abstract class AbstractCoordinate implements Coordinate {
     protected abstract doSetY(y: number): void;
 
     public calcStraightLineDistance(other: Coordinate): number {
+
         this.assertIsNotNullOrUndefined(other);
 
         let deltaX: number = Math.abs(other.getX() - this.doGetX());
@@ -75,7 +87,11 @@ export abstract class AbstractCoordinate implements Coordinate {
     protected abstract doGetR(): number;
 
     public setR(r: number): void {
+
         this.assertIsNotNullOrUndefined(r);
+
+
+        IllegalArgumentException.assert(this.isValidR(r));
 
         this.doSetR(r);
     }
@@ -89,16 +105,29 @@ export abstract class AbstractCoordinate implements Coordinate {
     protected abstract doGetPhi(): number;
 
     public setPhi(phi: number): void {
+
         this.assertIsNotNullOrUndefined(phi);
         this.assertIsValidPhi(phi);
 
         this.doSetPhi(phi);
+
+        IllegalArgumentException.assert(this.isValidPhi(phi));
+
+        this.doSetPhi(phi);
+
+        const newPhi: number = this.doGetPhi();
+        InvalidStateException.assert(this.isValidPhi(newPhi));
+
+        MethodFailedException.assert(newPhi == phi);
+
     }
 
     protected abstract doSetPhi(phi: number): void;
 
     public calcGreatCircleDistance(other: Coordinate): number {
+
         this.assertIsNotNullOrUndefined(other);
+
 
         let lowerR = Math.min(this.getR(), other.getR());
         let deltaPhi = Math.abs(other.getPhi() - this.getPhi());
@@ -106,13 +135,16 @@ export abstract class AbstractCoordinate implements Coordinate {
     }
 
     public multiplyWith(other: Coordinate): void {
+
         this.assertIsNotNullOrUndefined(other);
+
 
         let newR = this.getR() * other.getR();
         let newPhi = this.getPhi() + other.getPhi();
         this.setR(newR);
         this.setPhi(newPhi);
     }
+
 
     protected assertIsNotNullOrUndefined(other: Object): void {
         let condition: boolean = !IllegalArgumentException.isNullOrUndefined(other);
@@ -127,6 +159,18 @@ export abstract class AbstractCoordinate implements Coordinate {
     protected assertIsValidDelChar(d: string) {
         let condition: boolean = (d.length == 1);
         IllegalArgumentException.assertCondition(condition, "invalid delimiter character");
+
+    protected isValidR(r: number): boolean {
+        return r >= 0;
+    }
+
+    protected isValidPhi(phi: number): boolean {
+        return (phi >= 0) && (phi < 2*Math.PI);
+    }
+
+    protected isValidDelChar(d: string): boolean {
+        return d.length == 1;
+
     }
 
 }

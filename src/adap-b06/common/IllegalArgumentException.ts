@@ -1,4 +1,5 @@
 import { Exception } from "./Exception";
+import { InvalidStateException } from "./InvalidStateException";
 
 /**
  * An IllegalArgumentException signals an invalid argument.
@@ -6,16 +7,12 @@ import { Exception } from "./Exception";
  */
 export class IllegalArgumentException extends Exception {
 
-    static assertIsNotNullOrUndefined(o: Object | null, exMsg: string = "null or undefined"): void {
-        this.assertCondition(this.isNullOrUndefined(o), exMsg);
+    public static assert(c: boolean, m: string = "illegal argument", t?: Exception): void {
+        if (!c) throw new IllegalArgumentException(m, t);
     }
     
-    static assertCondition(cond: boolean, exMsg: string): void {
-        if (!cond) throw new IllegalArgumentException(exMsg);
+    constructor(m: string, t?: Exception) {
+        super(m, t);
     }
-    
-    constructor(m: string) {
-        super(m);
-    }
-    
+
 }

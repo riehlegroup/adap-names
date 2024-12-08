@@ -16,6 +16,7 @@ export class StringArrayName extends AbstractName {
         this.components = other;
         
         //throw new Error("needs implementation");
+
     }
     /**    
     public clone(): Name {

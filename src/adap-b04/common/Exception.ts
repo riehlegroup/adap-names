@@ -3,16 +3,30 @@
  */
 export abstract class Exception extends Error {
 
+
     static isNullOrUndefined(o: Object | null) {
         return (o == undefined) || (o == null);
     }
+
+    protected trigger: Exception | null = null;
+
 
     constructor(m: string, t?: Exception) {
         super(m);
 
         if (t != undefined) {
-            let a  = t;
+
+            this.trigger = t;
         }
+    }
+
+    public hasTrigger(): boolean {
+        return this.trigger != null;
+    }
+
+    public getTrigger(): Exception {
+        // @todo check if trigger is null
+        return this.trigger as Exception;
     }
 
 }

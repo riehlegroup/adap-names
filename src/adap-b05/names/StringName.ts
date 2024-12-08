@@ -17,6 +17,7 @@ export class StringName extends AbstractName {
         this.name = other;
         this.noComponents = this.name.split(this.delimiter).length
 
+
         MethodFailureException.assertIsNotNullOrUndefined(this.name, "can not assigned the string");
         MethodFailureException.assertCondition(this.noComponents > 0, "number of components is zero");
         //throw new Error("needs implementation");
