@@ -2,7 +2,7 @@ import { Node } from "./Node";
 
 export class Directory extends Node {
 
-    protected childNodes: Set<Node> = new Set<Node>();
+    protected childNodes: Set<Node> = new Set();
 
     constructor(bn: string, pn: Directory) {
         super(bn, pn);

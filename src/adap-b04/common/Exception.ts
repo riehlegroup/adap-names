@@ -1,16 +1,21 @@
-import { InvalidStateException } from "./InvalidStateException";
-
 /**
  * Root class for exceptions in ADAP examples
  */
 export abstract class Exception extends Error {
 
+
+    static isNullOrUndefined(o: Object | null) {
+        return (o == undefined) || (o == null);
+    }
+
     protected trigger: Exception | null = null;
+
 
     constructor(m: string, t?: Exception) {
         super(m);
 
         if (t != undefined) {
+
             this.trigger = t;
         }
     }

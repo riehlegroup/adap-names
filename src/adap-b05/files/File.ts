@@ -2,6 +2,8 @@ import { Node } from "./Node";
 import { Directory } from "./Directory";
 import { MethodFailedException } from "../common/MethodFailedException";
 
+import { InvalidStateException } from "../common/InvalidStateException";
+
 enum FileState {
     OPEN,
     CLOSED,
@@ -17,10 +19,18 @@ export class File extends Node {
     }
 
     public open(): void {
+        if (FileState.CLOSED != this.doGetFileState()){
+            throw new InvalidStateException("file is already open or deleted");
+        }
+        this.state = FileState.OPEN;
         // do something
     }
 
     public read(noBytes: number): Int8Array {
+        if (FileState.OPEN != this.doGetFileState()){
+            throw new InvalidStateException("file is not open");
+        }
+
         let result: Int8Array = new Int8Array(noBytes);
         // do something
 
@@ -44,6 +54,10 @@ export class File extends Node {
     }
 
     public close(): void {
+        if (FileState.CLOSED == this.doGetFileState()){
+            throw new InvalidStateException("file is already closed");
+        }
+        this.state = FileState.CLOSED;
         // do something
     }
 
