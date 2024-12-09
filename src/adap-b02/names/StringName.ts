@@ -6,14 +6,11 @@ export class StringName implements Name {
     protected name: string;
     protected noComponents: number;
        
-
-    protected delimiter: string = DEFAULT_DELIMITER;
-    protected name: string = "";
-    protected noComponents: number = 0;
+ 
 
     constructor(source: string, delimiter?: string) {
         this.delimiter = delimiter || DEFAULT_DELIMITER;
-        this.name = other;
+        this.name = source;
         this.noComponents = this.calculateComponents(this.name);
 
     }

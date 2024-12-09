@@ -57,14 +57,13 @@ export class Node {
      * @param bn basename of node being searched for
      */
     public findNodes(bn: string): Set<Node> {
-        this.assertClassInvariants();
         let res = new Set<Node>();
         
-        if(this.getBaseName() === bn)
+        if(this.doGetBaseName() == bn)
         {
             res.add(this);
-        }
-        return res;
+        } 
+        return new Set<Node>(res);
         //throw new Error("needs implementation or deletion");
     }
 

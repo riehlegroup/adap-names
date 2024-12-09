@@ -3,16 +3,15 @@ import { Name } from "./Name";
 import { AbstractName } from "./AbstractName";
 import { IllegalArgumentException } from "../common/IllegalArgumentException";
 import { InvalidStateException } from "../common/InvalidStateException";
-import { MethodFailureException } from "../common/MethodFailureException";
+import { MethodFailedException } from "../common/MethodFailedException";
 
 export class StringArrayName extends AbstractName {
 
     protected components: string[] = [];
 
-
     constructor(other: string[], delimiter?: string) {
         
-        IllegalArgumentException.assert(other != null, "string is null or undefined");
+        IllegalArgumentException.assert(other.length == 0, "string is null or undefined");
         super(delimiter);
         this.components = other;
         
@@ -55,7 +54,7 @@ export class StringArrayName extends AbstractName {
     public getNoComponents(): number {
         const res = this.components.length;
 
-        MethodFailureException.assertCondition(res >= 0, "number of components is equal or less than zero");
+        MethodFailedException.assert(res >= 0, "number of components is equal or less than zero");
 
         return res;
         //throw new Error("needs implementation");
@@ -63,55 +62,64 @@ export class StringArrayName extends AbstractName {
 
     public getComponent(i: number): string {
         const res = this.components[i];
-        MethodFailureException.assertIsNotNullOrUndefined(res, "component can not be reached");
+        IllegalArgumentException.assert(i >= 0, "Argument can not be less than zero")
+        MethodFailedException.assert(res != null, "component can not be null");
 
         return res;
 
         //throw new Error("needs implementation");
     }
 
-    public setComponent(i: number, c: string) {
+    public setComponent(i: number, c: string) : Name {
         IllegalArgumentException.assert(i <= this.components.length, "number exceeds the component size");
-        IllegalArgumentException.assert(c != null, "string is null or undefined");
+        IllegalArgumentException.assert(c != null, "string is null");
 
-        this.components[i] = c;
+        let res = this.components;
+        res[i] = c;
+        MethodFailedException.assert(res[i] == c, "Can not set the component");
+                
 
-        MethodFailureException.assertCondition(this.components[i] == c, "Can not set the component");
-        
+        return new StringArrayName(res, this.delimiter);
         //throw new Error("needs implementation");
     }
 
-    public insert(i: number, c: string) {
-        IllegalArgumentException.assert(c != null, "string is null or undefined");
+    public insert(i: number, c: string) : Name {
+        IllegalArgumentException.assert(c != null, "string is null");
 
         const length = this.components.length;
-        this.components.splice(i,0,c);
+        let res = this.components
+        res.splice(i,0,c);
         
-        MethodFailureException.assertCondition(length + 1 == this.components.length, "Can not be inserted")
+        MethodFailedException.assert(length + 1 == res.length, "Can not be inserted")
 
+        return new StringArrayName(res, this.delimiter);
         //throw new Error("needs implementation");
     }
 
-    public append(c: string) {
-        IllegalArgumentException.assert(c != null, "string is null or undefined");
+    public append(c: string) : Name {
+        IllegalArgumentException.assert(c != null, "string is null");
 
         const length = this.components.length;
-        this.components.push(c);
+        let res = this.components;
+        res.push(c);
 
-        MethodFailureException.assertCondition(length === this.components.length, "new array can not be created");
-        MethodFailureException.assertCondition(this.components[length + 1] === c, "string can not be pushed");
+        MethodFailedException.assert(length === this.components.length, "new array can not be created");
+        MethodFailedException.assert(res[length + 1] === c, "string can not be pushed");
 
+        return new StringArrayName(res, this.delimiter);
         //throw new Error("needs implementation");
     }
 
-    public remove(i: number) {
+    public remove(i: number) : Name {
         IllegalArgumentException.assert(i != null, "number is null or undefined");
         
         const length = this.components.length;
-        this.components.splice(i,1);
+        let res = this.components;
+        res.splice(i,1);
 
-        MethodFailureException.assertCondition(length - 1 == this.components.length, "Can not be deleted")
+        MethodFailedException.assert(length - 1 == res.length, "Can not be deleted")
 
+        return new StringArrayName(res, this.delimiter);
         //throw new Error("needs implementation");
     }
     /**

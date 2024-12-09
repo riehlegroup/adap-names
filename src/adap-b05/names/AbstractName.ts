@@ -2,14 +2,13 @@ import { DEFAULT_DELIMITER, ESCAPE_CHARACTER } from "../common/Printable";
 import { Name } from "./Name";
 import { IllegalArgumentException } from "../common/IllegalArgumentException";
 import { InvalidStateException } from "../common/InvalidStateException";
-import { MethodFailureException } from "../common/MethodFailureException";
-
+import { MethodFailedException } from "../common/MethodFailedException";
 export abstract class AbstractName implements Name {
 
     protected delimiter: string = DEFAULT_DELIMITER;
 
     constructor(delimiter: string = DEFAULT_DELIMITER) {
-        IllegalArgumentException.assertIsNotNullOrUndefined(delimiter, "Delimiter is null or undefined");
+        IllegalArgumentException.assert(delimiter != null, "Delimiter is null or undefined");
         this.delimiter = delimiter;
         //throw new Error("needs implementation");
     }
@@ -22,7 +21,7 @@ export abstract class AbstractName implements Name {
     }
 
     public asString(delimiter: string = this.delimiter): string {
-        IllegalArgumentException.assertIsNotNullOrUndefined(delimiter);
+        IllegalArgumentException.assert(delimiter != null);
         const text: string[] = [];
         
         for (let i = 0; i < this.getNoComponents(); i++) {
@@ -30,7 +29,7 @@ export abstract class AbstractName implements Name {
         }
         const result = text.join(delimiter);
 
-        MethodFailureException.assertIsNotNullOrUndefined(result,"Result of asString is null or undefined");
+        MethodFailedException.assert(result != null,"Result of asString is null or undefined");
         return result;
         //throw new Error("needs implementation");
     }
@@ -52,14 +51,14 @@ export abstract class AbstractName implements Name {
         }
         const result = components.join(this.delimiter);
         
-        MethodFailureException.assertIsNotNullOrUndefined(result, "Result of asDataString is null or undefined");
+        MethodFailedException.assert(result != null, "Result of asDataString is null or undefined");
 
         return result;
         //throw new Error("needs implementation");
     }
 
     public isEqual(other: Name): boolean {
-        InvalidStateException.assertIsNotNullOrUndefined(other, "Object is null or undefined")
+        InvalidStateException.assert(other != null, "Object is null or undefined")
 
         for (let i = 0; i < this.getNoComponents(); i++) {
             if (this.getComponent(i) != other.getComponent(i)) {

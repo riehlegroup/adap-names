@@ -3,7 +3,7 @@ import { Name } from "./Name";
 import { AbstractName } from "./AbstractName";
 import { IllegalArgumentException } from "../common/IllegalArgumentException";
 import { InvalidStateException } from "../common/InvalidStateException";
-import { MethodFailureException } from "../common/MethodFailureException";
+import { MethodFailedException } from "../common/MethodFailedException";
 
 export class StringName extends AbstractName {
 
@@ -11,15 +11,15 @@ export class StringName extends AbstractName {
     protected noComponents: number = 0;
 
     constructor(other: string, delimiter?: string) {
-        IllegalArgumentException.assertIsNotNullOrUndefined(other, "string is null or undefined");
+        IllegalArgumentException.assert(other != null, "string is null or undefined");
 
         super(delimiter);
         this.name = other;
         this.noComponents = this.name.split(this.delimiter).length
 
 
-        MethodFailureException.assertIsNotNullOrUndefined(this.name, "can not assigned the string");
-        MethodFailureException.assertCondition(this.noComponents > 0, "number of components is zero");
+        MethodFailedException.assert(this.name != null, "can not assigned the string");
+        MethodFailedException.assert(this.noComponents > 0, "number of components is zero");
         //throw new Error("needs implementation");
     }
     /*
@@ -56,51 +56,51 @@ export class StringName extends AbstractName {
     }
     */
     public getNoComponents(): number {
-        IllegalArgumentException.assertIsNotNullOrUndefined(this.noComponents, "number of components is null or undefined");
+        IllegalArgumentException.assert(this.noComponents != null, "number of components is null or undefined");
         return this.noComponents;
 
         //throw new Error("needs implementation");
     }
 
     public getComponent(i: number): string {
-        IllegalArgumentException.assertCondition(i >= 0, "number is less than zero");
+        IllegalArgumentException.assert(i >= 0, "number is less than zero");
 
         const res = this.name.split(this.delimiter)[i];
 
-        MethodFailureException.assertIsNotNullOrUndefined(res, "reached component is null or undefined")
+        MethodFailedException.assert(res != null, "reached component is null or undefined")
 
         return res;
         //throw new Error("needs implementation");
     }
 
     public setComponent(i: number, c: string) {
-        IllegalArgumentException.assertCondition(i > 0, "index number is less than zero");
-        IllegalArgumentException.assertIsNotNullOrUndefined(c, "string is null or undefined");
+        IllegalArgumentException.assert(i > 0, "index number is less than zero");
+        IllegalArgumentException.assert(c != null, "string is null or undefined");
 
         const components = this.name.split(this.delimiter);
         components[i] = c;
         this.name = components.join(this.delimiter);
 
-        MethodFailureException.assertCondition(this.name.split(this.delimiter)[i] == c, "string can not be assigned");
+        MethodFailedException.assert(this.name.split(this.delimiter)[i] == c, "string can not be assigned");
 
 
         //throw new Error("needs implementation");
     }
 
     public insert(i: number, c: string) {
-        IllegalArgumentException.assertCondition(i > 0, "index number is less than zero");
-        IllegalArgumentException.assertIsNotNullOrUndefined(c, "string is null or undefined");
+        IllegalArgumentException.assert(i > 0, "index number is less than zero");
+        IllegalArgumentException.assert(c != null, "string is null or undefined");
 
         const components = this.name.split(this.delimiter).splice(i,0,c);
         this.name = components.join(this.delimiter);
 
-        MethodFailureException.assertCondition(this.name.split(this.delimiter)[i] == c, "string can not be inserted");
+        MethodFailedException.assert(this.name.split(this.delimiter)[i] == c, "string can not be inserted");
 
         //throw new Error("needs implementation");
     }
 
     public append(c: string) {
-        IllegalArgumentException.assertIsNotNullOrUndefined(c, "string is null or undefined");
+        IllegalArgumentException.assert(c != null, "string is null or undefined");
 
         this.name = this.name + this.delimiter + c;
 
@@ -108,12 +108,12 @@ export class StringName extends AbstractName {
     }
 
     public remove(i: number) {
-        IllegalArgumentException.assertCondition(i > 0, "index number is less than zero");
+        IllegalArgumentException.assert(i > 0, "index number is less than zero");
 
         const components = this.name.split(this.delimiter).splice(i,1);
         this.name = components.join(this.delimiter);
 
-        MethodFailureException.assertCondition(this.noComponents + 1 == this.name.split(this.delimiter).length, "can not be removed")
+        MethodFailedException.assert(this.noComponents + 1 == this.name.split(this.delimiter).length, "can not be removed")
         //throw new Error("needs implementation");
     }
 /*
