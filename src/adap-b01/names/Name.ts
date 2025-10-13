@@ -39,7 +39,7 @@ export class Name {
      * The control characters in the data string are the default characters
      */
     public asDataString(): string {
-        return this.components.join(this.delimiter);
+        return this.components.join(DEFAULT_DELIMITER);
     }
 
     public getComponent(i: number): string {
