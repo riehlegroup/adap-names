@@ -19,7 +19,7 @@ export class StringName implements Name {
     }
 
     public asDataString(): string {
-        return (this.delimiter.split(this.name)).join(DEFAULT_DELIMITER);
+        return (this.name.split(this.delimiter)).join(DEFAULT_DELIMITER);
     }
 
     public getDelimiterCharacter(): string {
@@ -31,11 +31,11 @@ export class StringName implements Name {
     }
 
     public getNoComponents(): number {
-        return (this.delimiter.split(this.name).length);
+        return (this.name.split(this.delimiter).length);
     }
 
     public getComponent(x: number): string {
-        return this.delimiter.split(this.name)[x];
+        return this.name.split(this.delimiter)[x];
     }
 
     public setComponent(n: number, c: string): void {

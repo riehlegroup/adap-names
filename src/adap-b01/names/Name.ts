@@ -20,8 +20,24 @@ export class Name {
 
     /** Expects that all Name components are properly masked */
     constructor(other: string[], delimiter?: string) {
-        this.components = other;
         if(delimiter) this.delimiter = delimiter;
+        this.components = this.escapeComponents([...other]);
+    }
+
+    /**  @methodtype utility-method */
+    private escapeComponents(components: string[]): string[] {
+    return components.map(e => 
+                e.replace(new RegExp(`\\${ESCAPE_CHARACTER}`, 'g'), ESCAPE_CHARACTER + ESCAPE_CHARACTER)
+                .replace(new RegExp(`\\${this.delimiter}`, 'g'), ESCAPE_CHARACTER + this.delimiter)
+
+        )
+    }
+
+    private unescapeComponents(components: string[]): string[] {
+    return components.map(e => 
+                e.replace(new RegExp(`\\${ESCAPE_CHARACTER}\\${this.delimiter}`, 'g'), this.delimiter)
+                .replace(new RegExp(`\\${ESCAPE_CHARACTER}\\${ESCAPE_CHARACTER}`, 'g'), ESCAPE_CHARACTER)
+        )
     }
 
     /**
@@ -31,7 +47,7 @@ export class Name {
      */
     /** @methodtype conversion-method */
     public asString(delimiter: string = this.delimiter): string {
-        return this.components.join(delimiter);
+        return this.unescapeComponents(this.components).join(delimiter);
     }
 
     /** 
@@ -41,7 +57,7 @@ export class Name {
      */
     /** @methodtype conversion-method */
     public asDataString(): string {
-        return this.components.join(DEFAULT_DELIMITER);
+        return (this.components).join(DEFAULT_DELIMITER);
     }
     /** @methodtype get-method */
     public getComponent(i: number): string {
@@ -74,7 +90,7 @@ export class Name {
     
     /** @methodtype command-method */
     public remove(i: number): void {
-        delete this.components[i];
+        this.components.splice(i, 1);
     }
 
 }
