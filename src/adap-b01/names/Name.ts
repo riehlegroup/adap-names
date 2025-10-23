@@ -41,6 +41,7 @@ export class Name {
         throw new Error("needs implementation or deletion");
     }
 
+    /** Returns properly masked component string */
     public getComponent(i: number): string {
         throw new Error("needs implementation or deletion");
     }
