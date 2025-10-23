@@ -8,18 +8,25 @@ export class StringName implements Name {
     protected noComponents: number = 0;
 
     constructor(source: string, delimiter?: string) {
-        this.name = source;
         if(delimiter) {
             this.delimiter = delimiter;
         }
+        this.name = source;
+    }
+
+    private asArray(delimiter: string = this.delimiter): string[] {
+        // RegEx Magic: ?< negative lookbehind, ! not| \\\\ -> \\ 
+        // --> negative lookbehind not \\ = ?< ! \\ \\
+        // Then just \. -> \\.
+        return this.name.split(new RegExp(`(?<!\\\\)\\${delimiter}`));
     }
 
     public asString(delimiter: string = this.delimiter): string {
-        return this.name;
+        return this.asArray(this.delimiter).join(delimiter);
     }
 
     public asDataString(): string {
-        return (this.name.split(this.delimiter)).join(DEFAULT_DELIMITER);
+        return (this.asArray(this.delimiter)).join(DEFAULT_DELIMITER);
     }
 
     public getDelimiterCharacter(): string {
@@ -31,39 +38,39 @@ export class StringName implements Name {
     }
 
     public getNoComponents(): number {
-        return (this.name.split(this.delimiter).length);
+        return this.asArray().length;
     }
 
     public getComponent(x: number): string {
-        return this.name.split(this.delimiter)[x];
+        return this.asArray()[x];
     }
 
     public setComponent(n: number, c: string): void {
-        let tmp:string[] = this.name.split(this.delimiter);
+        let tmp:string[] = this.asArray();
         tmp[n] = c;
         this.name = tmp.join(this.delimiter);
     }
 
     public insert(n: number, c: string): void {
-        let tmp:string[] = this.name.split(this.delimiter);
+        let tmp:string[] = this.asArray();
         tmp.splice(n,0,c);
         this.name = tmp.join(this.delimiter);
     }
 
     public append(c: string): void {
-        let tmp:string[] = this.name.split(this.delimiter);
+        let tmp:string[] = this.asArray();
         tmp.push(c);
         this.name = tmp.join(this.delimiter);
     }
 
     public remove(n: number): void {
-        let tmp:string[] = this.name.split(this.delimiter);
+        let tmp:string[] = this.asArray();
         tmp.splice(n,1);
         this.name = tmp.join(this.delimiter);
     }
 
     public concat(other: Name): void {
-        let tmp:string[] = this.name.split(this.delimiter);
+        let tmp:string[] = this.asArray();
         let noComponents:number = other.getNoComponents();
         for (let i = 0; i < noComponents; i++) {
             tmp.push(other.getComponent(i));
