@@ -1,5 +1,3 @@
-// src/adap-b01/names/Name.ts
-
 export const DEFAULT_DELIMITER: string = ".";
 export const ESCAPE_CHARACTER = "\\";
 
