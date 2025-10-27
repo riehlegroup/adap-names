@@ -28,15 +28,16 @@ export class Name {
     private escapeComponents(components: string[]): string[] {
     return components.map(e => 
                 e.replace(new RegExp(`\\${ESCAPE_CHARACTER}`, 'g'), ESCAPE_CHARACTER + ESCAPE_CHARACTER)
-                .replace(new RegExp(`\\${this.delimiter}`, 'g'), ESCAPE_CHARACTER + this.delimiter)
+                //.replace(new RegExp(`\\${this.delimiter}`, 'g'), ESCAPE_CHARACTER + this.delimiter)
 
         )
     }
-
+    
+    /**  @methodtype utility-method */
     private unescapeComponents(components: string[]): string[] {
     return components.map(e => 
-                e.replace(new RegExp(`\\${ESCAPE_CHARACTER}\\${this.delimiter}`, 'g'), this.delimiter)
-                .replace(new RegExp(`\\${ESCAPE_CHARACTER}\\${ESCAPE_CHARACTER}`, 'g'), ESCAPE_CHARACTER)
+                //e.replace(new RegExp(`\\${ESCAPE_CHARACTER}\\${this.delimiter}`, 'g'), this.delimiter)
+                e.replace(new RegExp(`\\${ESCAPE_CHARACTER}\\${ESCAPE_CHARACTER}`, 'g'), ESCAPE_CHARACTER)
         )
     }
 

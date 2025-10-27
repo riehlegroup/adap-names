@@ -10,30 +10,30 @@ export class StringArrayName implements Name {
         if(delimiter) {
             this.delimiter = delimiter;
         }
-        this.components = this.escapeComponents([...source]);
+        this.components = [...source];
     }
 
     private escapeComponents(components: string[]): string[] {
     return components.map(e => 
                 e.replace(new RegExp(`\\${ESCAPE_CHARACTER}`, 'g'), ESCAPE_CHARACTER + ESCAPE_CHARACTER)
-                .replace(new RegExp(`\\${this.delimiter}`, 'g'), ESCAPE_CHARACTER + this.delimiter)
+                //.replace(new RegExp(`\\${this.delimiter}`, 'g'), ESCAPE_CHARACTER + this.delimiter)
 
         )
     }
 
     private unescapeComponents(components: string[]): string[] {
     return components.map(e => 
-                e.replace(new RegExp(`\\${ESCAPE_CHARACTER}\\${this.delimiter}`, 'g'), this.delimiter)
-                .replace(new RegExp(`\\${ESCAPE_CHARACTER}\\${ESCAPE_CHARACTER}`, 'g'), ESCAPE_CHARACTER)
+                //e.replace(new RegExp(`\\${ESCAPE_CHARACTER}\\${this.delimiter}`, 'g'), this.delimiter)
+                e.replace(new RegExp(`\\${ESCAPE_CHARACTER}\\${ESCAPE_CHARACTER}`, 'g'), ESCAPE_CHARACTER)
         )
     }
 
     public asString(delimiter: string = this.delimiter): string {
-        return this.unescapeComponents(this.components).join(delimiter);
+        return this.components.join(delimiter);
     }
 
     public asDataString(): string {
-        return this.components.join(DEFAULT_DELIMITER);
+        return this.escapeComponents(this.components).join(DEFAULT_DELIMITER);
     }
 
     public getDelimiterCharacter(): string {
@@ -49,7 +49,7 @@ export class StringArrayName implements Name {
     }
 
     public getComponent(i: number): string {
-        return this.unescapeComponents(this.components)[i];
+        return this.components[i];
     }
 
     public setComponent(i: number, c: string): void {
