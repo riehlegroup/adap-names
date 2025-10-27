@@ -21,7 +21,7 @@ export class Name {
     /** Expects that all Name components are properly masked */
     constructor(other: string[], delimiter?: string) {
         if(delimiter) this.delimiter = delimiter;
-        this.components = this.escapeComponents([...other]);
+        this.components = [...other];
     }
 
     /**  @methodtype utility-method */
@@ -32,12 +32,12 @@ export class Name {
 
         )
     }
-    
+
     /**  @methodtype utility-method */
     private unescapeComponents(components: string[]): string[] {
     return components.map(e => 
                 //e.replace(new RegExp(`\\${ESCAPE_CHARACTER}\\${this.delimiter}`, 'g'), this.delimiter)
-                e.replace(new RegExp(`\\${ESCAPE_CHARACTER}\\${ESCAPE_CHARACTER}`, 'g'), ESCAPE_CHARACTER)
+                e.replace(new RegExp(`\\${ESCAPE_CHARACTER}`, 'g'), '')
         )
     }
 

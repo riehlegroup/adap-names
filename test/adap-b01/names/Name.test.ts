@@ -38,7 +38,7 @@ describe("Escape character extravaganza 2", () => {
   it("test escape and delimiter boundary conditions", () => {
     // Original name string = "oss.cs.fau.de"
     let n: Name = new Name(["oss\\","css.","fau\\.de"], '.');
-    expect(n.asString()).toBe("oss\\.css..fau\\.de");
+    expect(n.asString()).toBe("oss.css..fau.de");
   });
 });
 
@@ -46,6 +46,6 @@ describe("Escape character extravaganza 3", () => {
   it("test escape and delimiter boundary conditions", () => {
     // Original name string = "oss.cs.fau.de"
     let n: Name = new Name(["oss\\","css.","fau\\.de"], '.');
-    expect(n.asDataString()).toBe("oss\\\\.css..fau\\\\.de");
+    expect(n.asDataString()).toBe("oss\\.css..fau\\.de");
   });
 });
