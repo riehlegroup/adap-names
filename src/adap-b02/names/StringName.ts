@@ -21,8 +21,23 @@ export class StringName implements Name {
         return this.name.split(new RegExp(`(?<!\\\\)\\${delimiter}`));
     }
 
+    /**  @methodtype utility-method */
+    private escapeComponents(components: string[]): string[] {
+    return components.map(e => 
+                e.replace(new RegExp(`\\${ESCAPE_CHARACTER}`, 'g'), ESCAPE_CHARACTER + ESCAPE_CHARACTER)
+
+        )
+    }
+
+    /**  @methodtype utility-method */
+    private unescapeComponents(components: string[]): string[] {
+    return components.map(e => 
+                e.replace(new RegExp(`\\${ESCAPE_CHARACTER}`, 'g'), '')
+        )
+    }
+
     public asString(delimiter: string = this.delimiter): string {
-        return this.asArray(this.delimiter).join(delimiter);
+        return this.unescapeComponents(this.asArray(this.delimiter)).join(delimiter);
     }
 
     public asDataString(): string {

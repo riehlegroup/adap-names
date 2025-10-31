@@ -16,24 +16,22 @@ export class StringArrayName implements Name {
     private escapeComponents(components: string[]): string[] {
     return components.map(e => 
                 e.replace(new RegExp(`\\${ESCAPE_CHARACTER}`, 'g'), ESCAPE_CHARACTER + ESCAPE_CHARACTER)
-                //.replace(new RegExp(`\\${this.delimiter}`, 'g'), ESCAPE_CHARACTER + this.delimiter)
 
         )
     }
 
     private unescapeComponents(components: string[]): string[] {
     return components.map(e => 
-                //e.replace(new RegExp(`\\${ESCAPE_CHARACTER}\\${this.delimiter}`, 'g'), this.delimiter)
-                e.replace(new RegExp(`\\${ESCAPE_CHARACTER}\\${ESCAPE_CHARACTER}`, 'g'), ESCAPE_CHARACTER)
+                e.replace(new RegExp(`\\${ESCAPE_CHARACTER}`, 'g'), '')
         )
     }
 
     public asString(delimiter: string = this.delimiter): string {
-        return this.components.join(delimiter);
+        return this.unescapeComponents(this.components).join(delimiter);
     }
 
     public asDataString(): string {
-        return this.escapeComponents(this.components).join(DEFAULT_DELIMITER);
+        return this.components.join(DEFAULT_DELIMITER);
     }
 
     public getDelimiterCharacter(): string {
