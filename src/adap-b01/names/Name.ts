@@ -33,8 +33,8 @@ export class Name {
     }
 
     /**
-     * Returns a human-readable representation of the Name instance using user-set control characters
-     * Control characters are not escaped (creating a human-readable string)
+     * Returns a human-readable representation of the Name instance using user-set special characters
+     * Special characters are not escaped (creating a human-readable string)
      * Users can vary the delimiter character to be used
      */
     /** @methodtype conversion-method */
@@ -43,15 +43,16 @@ export class Name {
     }
 
     /** 
-     * Returns a machine-readable representation of Name instance using default control characters
+     * Returns a machine-readable representation of Name instance using default special characters
      * Machine-readable means that from a data string, a Name can be parsed back in
-     * The control characters in the data string are the default characters
+     * The special characters in the data string are the default characters
      */
     /** @methodtype conversion-method */
     public asDataString(): string {
         return (this.components).join(DEFAULT_DELIMITER);
     }
     /** @methodtype get-method */
+    /** Returns properly masked component string */
     public getComponent(i: number): string {
         return this.components[i];
     }
